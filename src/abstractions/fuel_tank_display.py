@@ -1,20 +1,21 @@
-from abc import ABCMeta, abstractproperty
+from abc import ABC, abstractmethod
 
 
 # class that describes display of fuel tank
-class FuelTankDisplay():
+class FuelTankDisplay(ABC):
 
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def FillLevel():
+    @property
+    @abstractmethod
+    def FillLevel(self):
         """Indicates fill level(float)"""
 
-    @abstractproperty
-    def IsOnReserve():
+    @property
+    @abstractmethod
+    def IsOnReserve(self):
         """Boolean value which indicates whether
         fuel is below certain border"""
 
-    @abstractproperty
-    def IsFull():
+    @property
+    @abstractmethod
+    def IsFull(self):
         """Boolean value which indicates whether tank is full"""

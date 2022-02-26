@@ -1,39 +1,38 @@
-from abc import ABCMeta, abstractclassmethod, abstractproperty
+from abc import ABC, abstractmethod
 
 
 # Abstact class that describes vehicles
-class AbstractVehicle():
+class AbstractVehicle(ABC):
 
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def EngineIsRunning():
+    @property
+    @abstractmethod
+    def EngineIsRunning(self):
         """Indicates whether engine is running or not"""
 
-    @abstractclassmethod
-    def EngineStart():
+    @abstractmethod
+    def EngineStart(self):
         """Starts an engine"""
 
-    @abstractclassmethod
-    def EngineStop():
+    @abstractmethod
+    def EngineStop(self):
         """Stops an engine"""
 
-    @abstractclassmethod
-    def Refuel(liters: float):
+    @abstractmethod
+    def Refuel(self, liters: float):
         """Refuel vehicle by certain amount of fuel(in liters)"""
 
-    @abstractclassmethod
-    def RunningIdle():
+    @abstractmethod
+    def RunningIdle(self):
         """Method which runs vehicle until certain event"""
 
-    @abstractclassmethod
-    def FreeWheel():
+    @abstractmethod
+    def FreeWheel(self):
         """Method which runs vehicle in mode where fuel doesn't consume"""
 
-    @abstractclassmethod
-    def BrakeBy(speed: int):
+    @abstractmethod
+    def BrakeBy(self, speed: int):
         """Method which launches breaking in vehicle"""
 
-    @abstractclassmethod
-    def Accelerate(speed: int):
+    @abstractmethod
+    def Accelerate(self, speed: int):
         """Method which launches acceleration in vehicle"""

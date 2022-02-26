@@ -1,11 +1,10 @@
-from abc import ABCMeta, abstractproperty
+from abc import ABC, abstractmethod
 
 
 # class that describes actual information on vehicle speed and other parameters
-class AbstractDrivingInformationDisplay():
+class AbstractDrivingInformationDisplay(ABC):
 
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def ActualSpeed():
+    @property
+    @abstractmethod
+    def ActualSpeed(self):
         """Indicates actual speed of vehicle."""

@@ -1,19 +1,18 @@
-from abc import ABCMeta, abstractclassmethod, abstractproperty
+from abc import ABC, abstractmethod
 
 
 # class that represents 'proccesor' of vehicle
-class AbstractDrivingProcessor():
+class AbstractDrivingProcessor(ABC):
 
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def ActualSpeed():
+    @property
+    @abstractmethod
+    def ActualSpeed(self):
         """Gets actual speed of vehicle.(int)"""
 
-    @abstractclassmethod
-    def IncreaseSpeedTo(speed: int):
+    @abstractmethod
+    def IncreaseSpeedTo(self, speed: int):
         """Increase speed until certain 'speed' (in kilometrs per hour)"""
 
-    @abstractclassmethod
-    def ReduceSpeedTo(speed: int):
+    @abstractmethod
+    def ReduceSpeedTo(self, speed: int):
         """Reduces speed to certain value 'speed'(in kilometers per hour)"""

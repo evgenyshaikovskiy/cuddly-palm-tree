@@ -1,23 +1,22 @@
-from abc import ABCMeta, abstractclassmethod, abstractproperty
+from abc import ABC, abstractmethod
 
 
 # class that commonly describes all engines
-class AbstractEngine():
+class AbstractEngine(ABC):
 
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def IsRunning():
+    @property
+    @abstractmethod
+    def IsRunning(self):
         """Indicates whether engine is running"""
 
-    @abstractclassmethod
-    def Consume(liters: float):
+    @abstractmethod
+    def Consume(self, liters: float):
         """Consumes certain amount of liters"""
 
-    @abstractclassmethod
-    def Start():
+    @abstractmethod
+    def Start(self):
         """Starts an engine"""
 
-    @abstractclassmethod
-    def Stop():
+    @abstractmethod
+    def Stop(self):
         """Stops an engine"""
