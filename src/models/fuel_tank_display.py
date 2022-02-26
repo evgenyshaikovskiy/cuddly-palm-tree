@@ -1,8 +1,10 @@
-from abc import ABCMeta, abstractclassmethod, abstractproperty
+from abc import ABCMeta, abstractproperty
 
 
 # class that describes display of fuel tank
 class FuelTankDisplay():
+
+    __metaclass__ = ABCMeta
 
     @abstractproperty
     def FillLevel():

@@ -4,6 +4,8 @@ from abc import ABCMeta, abstractclassmethod, abstractproperty
 # class that describes fuel tank behaviour
 class AbstractFuelTank():
 
+    __metaclass__ = ABCMeta
+
     @abstractproperty
     def FillLevel():
         "Indicates amount of fuel(in liters)"

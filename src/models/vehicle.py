@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractclassmethod, abstractproperty
 
 # Abstact class that describes vehicles
 class AbstractVehicle():
+
     __metaclass__ = ABCMeta
 
     @abstractproperty
