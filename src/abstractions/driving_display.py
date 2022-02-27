@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 # class that describes actual information on vehicle speed and other parameters
-class AbstractDrivingInformationDisplay(ABC):
+class AbstractDrivingDisplay(ABC):
 
     @property
     @abstractmethod
