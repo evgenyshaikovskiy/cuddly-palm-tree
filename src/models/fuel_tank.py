@@ -5,12 +5,9 @@ from config import config
 class FuelTank(AbstractFuelTank):
 
     def __init__(self,
-                 fillLevel=config.DefaultFillLevel,
-                 tankSize=config.DefaultTankSize,
-                 onReserveBorder=config.DefaultFillLevel):
-        # declare private variables with float types
-        self.__fillLevel: float
-        self.__tankSize: float
+                 fillLevel=config.DefaultFillLevel(),
+                 tankSize=config.DefaultTankSize(),
+                 onReserveBorder=config.DefaultFillLevel()):
         self.__onReserveBorder: float = onReserveBorder
 
         if fillLevel < 0:

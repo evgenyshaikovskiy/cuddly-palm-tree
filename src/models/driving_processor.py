@@ -6,11 +6,11 @@ from config import config
 class DrivingProcessor(AbstractDrivingProcessor):
     def __init__(self,
                  engine: AbstractEngine,
-                 accelerationRatio=config.AccelerationRatio,
-                 maxAccelerationRatio=config.DefaultMaxAccelerationRatio,
-                 minAccelerationRatio=config.DefaultMinAccelerationRatio,
-                 maxSpeed=config.DefaultMaxSpeed,
-                 brakingSpeed=config.DefaultBrakingSpeed):
+                 accelerationRatio=config.AccelerationRatio(),
+                 maxAccelerationRatio=config.DefaultMaxAccelerationRatio(),
+                 minAccelerationRatio=config.DefaultMinAccelerationRatio(),
+                 maxSpeed=config.DefaultMaxSpeed(),
+                 brakingSpeed=config.DefaultBrakingSpeed()):
 
         # set initial speed to zero
         # TODO: introduce exception handling for min and max accelerationRatio

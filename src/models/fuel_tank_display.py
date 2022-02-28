@@ -1,9 +1,9 @@
 from abstractions.fuel_tank import AbstractFuelTank
-from abstractions.fuel_tank_display import AbstractFuelTank
+from abstractions.fuel_tank_display import AbstractFuelTankDisplay
 from abstractions.fuel_tank import AbstractFuelTank
 
 
-class FuelTankDisplay(AbstractFuelTank):
+class FuelTankDisplay(AbstractFuelTankDisplay):
 
     def __init__(self, fuelTank: AbstractFuelTank):
         self.__fuelTank = fuelTank

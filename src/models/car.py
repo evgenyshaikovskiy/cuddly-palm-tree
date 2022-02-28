@@ -15,14 +15,14 @@ from models.engine import Engine
 
 class Car(AbstractVehicle):
     def __init__(self,
-                 fillLevel=config.DefaultFillLevel,
-                 maxAccelerationRation=config.DefaultMaxAccelerationRatio,
-                 tankSize=config.DefaultTankSize,
-                 onReserveBorder=config.DefaultOnReserveBorder,
-                 accelerationRatio=config.AccelerationRatio,
-                 minAccelerationRatio=config.DefaultMinAccelerationRatio,
-                 maxSpeed=config.DefaultMaxSpeed,
-                 brakingSpeed=config.DefaultBrakingSpeed):
+                 fillLevel=config.DefaultFillLevel(),
+                 maxAccelerationRation=config.DefaultMaxAccelerationRatio(),
+                 tankSize=config.DefaultTankSize(),
+                 onReserveBorder=config.DefaultOnReserveBorder(),
+                 accelerationRatio=config.AccelerationRatio(),
+                 minAccelerationRatio=config.DefaultMinAccelerationRatio(),
+                 maxSpeed=config.DefaultMaxSpeed(),
+                 brakingSpeed=config.DefaultBrakingSpeed()):
 
         self.__fuelTank: AbstractFuelTank = FuelTank(fillLevel,
                                                      tankSize,
@@ -49,7 +49,7 @@ class Car(AbstractVehicle):
         return self.__engine.IsRunning
 
     def EngineStart(self):
-        if not self.__engine.IsRunning and self.__fuelTank.Fillevel > 0:
+        if not self.__engine.IsRunning and self.__fuelTank.FillLevel > 0:
             self.__engine.Start()
 
     def EngineStop(self):
@@ -68,6 +68,9 @@ class Car(AbstractVehicle):
 
     def Accelerate(self, speed: int):
         self.__drivingProcessor.IncreaseSpeedTo(speed)
+
+    def Refuel(self, liters: float):
+        self.__fuelTank.Refuel(liters)
 
     def GetInformationOnCar(self):
         print(f'Vehicle actual speed is {self.__drivingDisplay.ActualSpeed}')
