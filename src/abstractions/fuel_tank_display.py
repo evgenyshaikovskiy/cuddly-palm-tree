@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 # class that describes display of fuel tank
-class FuelTankDisplay(ABC):
+class AbstractFuelTankDisplay(ABC):
 
     @property
     @abstractmethod
