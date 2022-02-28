@@ -14,5 +14,5 @@ class AbstractDrivingProcessor(ABC):
         """Increase speed until certain 'speed' (in kilometrs per hour)"""
 
     @abstractmethod
-    def ReduceSpeedTo(self, speed: int):
+    def ReduceSpeedBy(self, reduceBy: int):
         """Reduces speed to certain value 'speed'(in kilometers per hour)"""
