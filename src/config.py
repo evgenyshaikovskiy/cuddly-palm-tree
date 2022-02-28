@@ -26,7 +26,7 @@ class config():
     @property
     def DefaultBrakingSpeed():
         return 10
-    
+
     @property
     def AccelerationRatio():
         return 10
