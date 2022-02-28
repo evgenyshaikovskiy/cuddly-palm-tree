@@ -1,32 +1,35 @@
+from os import stat
+
+
 class config():
-    @property
+    @staticmethod
     def DefaultFillLevel():
         return 20
 
-    @property
+    @staticmethod
     def DefaultTankSize():
         return 60
 
-    @property
+    @staticmethod
     def DefaultOnReserveBorder():
         return 5
 
-    @property
+    @staticmethod
     def DefaultMaxAccelerationRatio():
         return 20
 
-    @property
+    @staticmethod
     def DefaultMinAccelerationRatio():
         return 5
 
-    @property
+    @staticmethod
     def DefaultMaxSpeed():
         return 250
 
-    @property
+    @staticmethod
     def DefaultBrakingSpeed():
         return 10
 
-    @property
+    @staticmethod
     def AccelerationRatio():
         return 10
