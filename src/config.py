@@ -1,4 +1,3 @@
-from os import stat
 
 
 class config():
@@ -31,5 +30,33 @@ class config():
         return 10
 
     @staticmethod
-    def AccelerationRatio():
+    def DefaultAccelerationRatio():
         return 10
+
+    @staticmethod
+    def DefaultCoefficient():
+        return 1
+
+    @staticmethod
+    def DefaultRunningIdleConsumptionRate():
+        return 0.001
+
+    @staticmethod
+    def DefaultRunningQuaterConsumptionRate():
+        return 0.006
+
+    @staticmethod
+    def DefaultRunningHalfConsumptionRate():
+        return 0.012
+
+    @staticmethod
+    def DefaultRunningUpperHalfConsumptionRate():
+        return 0.024
+
+    @staticmethod
+    def DefaultRunningBeforeMaxConsumptionRate():
+        return 0.048
+
+    @staticmethod
+    def DefaultRunningMaxSpeedConsumptionRate():
+        return 0.096
