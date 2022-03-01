@@ -34,8 +34,16 @@ class config():
         return 10
 
     @staticmethod
-    def DefaultCoefficient():
+    def DefaultCarCoefficient():
         return 1
+
+    @staticmethod
+    def DefaultAcceleratingCoefficient():
+        return 1.3
+
+    @staticmethod
+    def DefaultBrakingCoefficient():
+        return 0.1
 
     @staticmethod
     def DefaultRunningIdleConsumptionRate():
