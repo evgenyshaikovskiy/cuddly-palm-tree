@@ -1,3 +1,4 @@
+import logging
 from config import config
 from abstractions.vehicle import AbstractVehicle
 from abstractions.fuel_tank import AbstractFuelTank
@@ -22,8 +23,12 @@ class Car(AbstractVehicle):
                  accelerationRatio=config.DefaultAccelerationRatio(),
                  minAccelerationRatio=config.DefaultMinAccelerationRatio(),
                  maxSpeed=config.DefaultMaxSpeed(),
-                 brakingSpeed=config.DefaultBrakingSpeed(),
-                 coefficient=config.DefaultCoefficient()):
+                 brakingSpeed=config.DefaultBrakingSpeed()):
+
+        logging.basicConfig(level=logging.INFO,
+                            filename='app.log',
+                            filemode='w',
+                            format='%(name)s - %(levelname)s - %(message)s')
 
         self.__fuelTank: AbstractFuelTank = FuelTank(fillLevel,
                                                      tankSize,
@@ -40,8 +45,7 @@ class Car(AbstractVehicle):
             maxAccelerationRation,
             minAccelerationRatio,
             maxSpeed,
-            brakingSpeed,
-            coefficient)
+            brakingSpeed)
 
         self.__drivingDisplay: AbstractDrivingDisplay = DrivingDisplay(
             self.__drivingProcessor)
@@ -51,30 +55,37 @@ class Car(AbstractVehicle):
         return self.__engine.IsRunning
 
     def EngineStart(self):
+        logging.info('Starts an engine...')
         if not self.__engine.IsRunning and self.__fuelTank.FillLevel > 0:
             self.__engine.Start()
 
     def EngineStop(self):
+        logging.info('Stops an engine...')
         if self.__engine.IsRunning:
             self.__engine.Stop()
 
     def RunningIdle(self):
-        # looks fine by now
+        logging.info('Running idle...')
         self.__engine.Consume(config.DefaultRunningIdleConsumptionRate)
 
     def FreeWheel(self):
+        logging.info('Free wheel...')
         self.__drivingProcessor.ReduceSpeedBy(1)
 
     def BrakeBy(self, speed: int):
+        logging.info(f'Break by {speed}...')
         self.__drivingProcessor.ReduceSpeedBy(speed)
 
     def Accelerate(self, speed: int):
+        logging.info(f'Accelerate by {speed}...')
         self.__drivingProcessor.IncreaseSpeedTo(speed)
 
     def Refuel(self, liters: float):
+        logging.info(f'Refuel by {liters}...')
         self.__fuelTank.Refuel(liters)
 
     def GetInformationOnCar(self):
         print(f'Vehicle actual speed is {self.__drivingDisplay.ActualSpeed}')
+        print(f'Curr  {self.__drivingDisplay.ActualConsumption}')
         print(f'Current fill level is {self.__fuelTankDisplay.FillLevel}')
         # add compsumption
