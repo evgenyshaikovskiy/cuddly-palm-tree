@@ -6,18 +6,20 @@ from config import config
 class DrivingProcessor(AbstractDrivingProcessor):
     def __init__(self,
                  engine: AbstractEngine,
-                 accelerationRatio=config.AccelerationRatio(),
+                 accelerationRatio=config.DefaultAccelerationRatio(),
                  maxAccelerationRatio=config.DefaultMaxAccelerationRatio(),
                  minAccelerationRatio=config.DefaultMinAccelerationRatio(),
                  maxSpeed=config.DefaultMaxSpeed(),
-                 brakingSpeed=config.DefaultBrakingSpeed()):
+                 brakingSpeed=config.DefaultBrakingSpeed(),
+                 coefficient=config.DefaultCoefficient()):
 
         # set initial speed to zero
         # TODO: introduce exception handling for min and max accelerationRatio
         # and max speed
-        self.__maxSpeed = maxSpeed
-        self.__brakingSpeed = brakingSpeed
+        self.__maxSpeed: int = maxSpeed
+        self.__brakingSpeed: int = brakingSpeed
         self.__actualSpeed: int = 0
+        self.__coefficient: float = coefficient
 
         if accelerationRatio < minAccelerationRatio:
             accelerationRatio = minAccelerationRatio
@@ -31,6 +33,26 @@ class DrivingProcessor(AbstractDrivingProcessor):
     @property
     def ActualSpeed(self):
         return self.__actualSpeed
+
+    @property
+    def CalculateConsumptionRate(self):
+        currentSpeed = self.ActualSpeed
+        consumption: float = 0
+        if currentSpeed > 0:
+            if currentSpeed < self.__maxSpeed * 0.25:
+                consumption = config.DefaultRunningQuaterConsumptionRate
+            elif currentSpeed < self.__maxSpeed * 0.5:
+                consumption = config.DefaultRunningHalfConsumptionRate
+            elif currentSpeed < self.__maxSpeed * 0.75:
+                consumption = config.DefaultRunningHalfConsumptionRate
+            elif currentSpeed < self.__maxSpeed:
+                consumption = config.DefaultRunningUpperHalfConsumptionRate
+            elif currentSpeed == config.DefaultMaxSpeed:
+                consumption = config.DefaultRunningMaxSpeedConsumptionRate
+        else:
+            consumption = 0
+
+        return consumption * self.__coefficient
 
     def IncreaseSpeedTo(self, speed: int):
         if not self.__engine.IsRunning:
@@ -47,6 +69,8 @@ class DrivingProcessor(AbstractDrivingProcessor):
         if self.__actualSpeed > self.__maxSpeed:
             self.__actualSpeed = self.__maxSpeed
 
+        self.__engine.Consume(self.CalculateConsumptionRate)
+
     def ReduceSpeedBy(self, reduceBy: int):
         if not self.__engine.IsRunning:
             return
@@ -55,3 +79,5 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         if self.__actualSpeed < 0:
             self.__actualSpeed = 0
+
+        self.__engine.Consume(self.CalculateConsumptionRate)

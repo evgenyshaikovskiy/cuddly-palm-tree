@@ -19,10 +19,11 @@ class Car(AbstractVehicle):
                  maxAccelerationRation=config.DefaultMaxAccelerationRatio(),
                  tankSize=config.DefaultTankSize(),
                  onReserveBorder=config.DefaultOnReserveBorder(),
-                 accelerationRatio=config.AccelerationRatio(),
+                 accelerationRatio=config.DefaultAccelerationRatio(),
                  minAccelerationRatio=config.DefaultMinAccelerationRatio(),
                  maxSpeed=config.DefaultMaxSpeed(),
-                 brakingSpeed=config.DefaultBrakingSpeed()):
+                 brakingSpeed=config.DefaultBrakingSpeed(),
+                 coefficient=config.DefaultCoefficient()):
 
         self.__fuelTank: AbstractFuelTank = FuelTank(fillLevel,
                                                      tankSize,
@@ -39,7 +40,8 @@ class Car(AbstractVehicle):
             maxAccelerationRation,
             minAccelerationRatio,
             maxSpeed,
-            brakingSpeed)
+            brakingSpeed,
+            coefficient)
 
         self.__drivingDisplay: AbstractDrivingDisplay = DrivingDisplay(
             self.__drivingProcessor)
@@ -57,8 +59,8 @@ class Car(AbstractVehicle):
             self.__engine.Stop()
 
     def RunningIdle(self):
-        # consider refactoring this part
-        self.__engine.Consume(0.003)
+        # looks fine by now
+        self.__engine.Consume(config.DefaultRunningIdleConsumptionRate)
 
     def FreeWheel(self):
         self.__drivingProcessor.ReduceSpeedBy(1)
@@ -74,4 +76,5 @@ class Car(AbstractVehicle):
 
     def GetInformationOnCar(self):
         print(f'Vehicle actual speed is {self.__drivingDisplay.ActualSpeed}')
+        print(f'Current fill level is {self.__fuelTankDisplay.FillLevel}')
         # add compsumption

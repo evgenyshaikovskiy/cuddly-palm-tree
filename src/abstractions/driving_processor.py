@@ -9,6 +9,11 @@ class AbstractDrivingProcessor(ABC):
     def ActualSpeed(self):
         """Gets actual speed of vehicle.(int)"""
 
+    @property
+    @abstractmethod
+    def CalculateConsumptionRate(self):
+        """Gets comsumption level based on coefficient and car actual speed"""
+
     @abstractmethod
     def IncreaseSpeedTo(self, speed: int):
         """Increase speed until certain 'speed' (in kilometrs per hour)"""
