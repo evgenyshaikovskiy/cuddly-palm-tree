@@ -1,17 +1,24 @@
 from abc import ABC, abstractmethod
 
 
-# class that represents 'proccesor' of vehicle
+# class that represents 'proccesor'
+# of vehicle (could be represented as multiple electronic car tools)
 class AbstractDrivingProcessor(ABC):
 
     @property
     @abstractmethod
     def ActualSpeed(self):
-        """Gets actual speed of vehicle.(int)"""
+        """Gets actual speed of vehicle in km/h."""
 
     @property
     @abstractmethod
-    def CalculateConsumptionRate(self):
+    def LastConsumption(self):
+        """Gets last consumption in liters."""
+
+    @abstractmethod
+    def CalculateConsumptionRate(self,
+                                 isAccelerating: bool = False,
+                                 isBraking: bool = False):
         """Gets comsumption level based on coefficient and car actual speed"""
 
     @abstractmethod

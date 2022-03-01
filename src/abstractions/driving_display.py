@@ -8,3 +8,8 @@ class AbstractDrivingDisplay(ABC):
     @abstractmethod
     def ActualSpeed(self):
         """Indicates actual speed of vehicle."""
+
+    @property
+    @abstractmethod
+    def ActualConsumption(self):
+        """Indicates current consumption rate."""
