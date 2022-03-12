@@ -85,7 +85,12 @@ class Car(AbstractVehicle):
         self.__fuelTank.Refuel(liters)
 
     def GetInformationOnCar(self):
-        print(f'Vehicle actual speed is {self.__drivingDisplay.ActualSpeed}')
-        print(f'Curr  {self.__drivingDisplay.ActualConsumption}')
-        print(f'Current fill level is {self.__fuelTankDisplay.FillLevel}')
+        if self.EngineIsRunning:
+            print('For current moment car engine is running')
+        else:
+            print('For current moment car engine is not running')
+
+        print(f'''Actual speed is  {self.__drivingDisplay.ActualSpeed}
+        Actual consumption is {self.__drivingDisplay.ActualConsumption}
+        Actual fill level is {self.__fuelTankDisplay.FillLevel}''')
         # add compsumption
