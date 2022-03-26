@@ -1,5 +1,8 @@
 import asyncio
+from logger import logger
 from models.car import Car
+
+logger.setup()
 
 
 async def main():

@@ -1,4 +1,5 @@
-from abc import abstractmethod
+from logger import logger
+
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.driving_display import AbstractDrivingDisplay
 
@@ -10,8 +11,10 @@ class DrivingDisplay(AbstractDrivingDisplay):
 
     @property
     def ActualSpeed(self):
+        logger.log('Access actual car speed in driving display class.')
         return self.__drivingProcessor.ActualSpeed
 
     @property
     def ActualConsumption(self):
+        logger.log('Access actual consumption in driving display class.')
         return self.__drivingProcessor.LastConsumption

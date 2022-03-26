@@ -1,3 +1,5 @@
+from logger import logger
+
 from abstractions.fuel_tank import AbstractFuelTank
 from config import config
 
@@ -21,17 +23,21 @@ class FuelTank(AbstractFuelTank):
 
     @property
     def FillLevel(self):
+        logger.log('Access fill level in fuel tank class.')
         return self.__fillLevel
 
     @property
     def IsOnReserve(self):
+        logger.log('Calculating whether car is on reverse in fuel tank class.')
         return self.__fillLevel < self.__onReserveBorder
 
     @property
     def IsFull(self):
+        logger.log('Calculating whether fuel tank is full in fuel tank class.')
         return self.__fillLevel == self.__tankSize
 
     def Consume(self, liters: float):
+        logger.log(f'Consuming {liters} liters in fuel tank class.')
         self.__fillLevel -= liters
         self.__fillLevel = round(self.__fillLevel, 10)
 
@@ -39,6 +45,7 @@ class FuelTank(AbstractFuelTank):
             self.__fillLevel = 0
 
     def Refuel(self, liters: float):
+        logger.log(f'Refuel tank by {liters} liters in fuel tank class.')
         self.__fillLevel += liters
 
         if self.__fillLevel > self.__tankSize:
