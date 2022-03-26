@@ -20,45 +20,36 @@ async def main():
               ''')
         action = int(input())
 
-        match action:
-            case 1:
-                car.EngineStart()
-                await asyncio.sleep(2)
-                continue
-            case 2:
-                car.EngineStop()
-                await asyncio.sleep(2)
-                continue
-            case 3:
-                car.RunningIdle()
-                await asyncio.sleep(3)
-                continue
-            case 4:
-                car.FreeWheel()
-                await asyncio.sleep(3)
-                continue
-            case 5:
-                print('Input count of km/h to brake by')
-                speed = int(input())
-                car.BrakeBy(speed)
-                await asyncio.sleep(3)
-                continue
-            case 6:
-                print('Input count of km/h to accelerate by')
-                speed = int(input())
-                car.Accelerate(speed)
-                await asyncio.sleep(3)
-                continue
-            case 7:
-                print('Input amount of liters to refuel')
-                liters = float(input())
-                car.Refuel(liters)
-                await asyncio.sleep(3)
-                continue
-            case 8:
-                car.GetInformationOnCar()
-                await asyncio.sleep(3)
-                continue
+        if action == 1:
+            car.EngineStart()
+            await asyncio.sleep(2)
+        elif action == 2:
+            car.EngineStop()
+            await asyncio.sleep(2)
+        elif action == 3:
+            car.RunningIdle()
+            await asyncio.sleep(3)
+        elif action == 4:
+            car.FreeWheel()
+            await asyncio.sleep(3)
+            print('Input count of km/h to brake by')
+        elif action == 5:
+            speed = int(input())
+            car.BrakeBy(speed)
+            await asyncio.sleep(3)
+        elif action == 6:
+            print('Input count of km/h to accelerate by')
+            speed = int(input())
+            car.Accelerate(speed)
+            await asyncio.sleep(3)
+        elif action == 7:
+            print('Input amount of liters to refuel')
+            liters = float(input())
+            car.Refuel(liters)
+            await asyncio.sleep(3)
+        elif action == 8:
+            car.GetInformationOnCar()
+            await asyncio.sleep(3)
 
 
 asyncio.run(main())
