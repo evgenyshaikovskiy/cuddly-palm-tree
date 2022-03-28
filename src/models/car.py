@@ -51,33 +51,33 @@ class Car(AbstractVehicle):
         return self.__engine.IsRunning
 
     def EngineStart(self):
-        logger.log('Starts an engine in car class.')
+        logger.log("Starts an engine in car class.")
         if not self.__engine.IsRunning and self.__fuelTank.FillLevel > 0:
             self.__engine.Start()
 
     def EngineStop(self):
-        logger.log('Stops an engine in car class.')
+        logger.log("Stops an engine in car class.")
         if self.__engine.IsRunning:
             self.__engine.Stop()
 
     def RunningIdle(self):
-        logger.log('Running idle in car calss.')
+        logger.log("Running idle in car calss.")
         self.__engine.Consume(config.DefaultRunningIdleConsumptionRate)
 
     def FreeWheel(self):
-        logger.log('Free wheel in car class.')
+        logger.log("Free wheel in car class.")
         self.__drivingProcessor.ReduceSpeedBy(1)
 
     def BrakeBy(self, speed: int):
-        logger.log(f'Break by {speed} in car class')
+        logger.log(f"Break by {speed} in car class.")
         self.__drivingProcessor.ReduceSpeedBy(speed)
 
     def Accelerate(self, speed: int):
-        logger.log(f'Accelerate by {speed} in car class')
+        logger.log(f"Accelerate by {speed} in car class")
         self.__drivingProcessor.IncreaseSpeedTo(speed)
 
     def Refuel(self, liters: float):
-        logger.log(f'Refuel by {liters} in car class')
+        logger.log(f"Refuel by {liters} in car class")
         self.__fuelTank.Refuel(liters)
 
     def GetInformationOnCar(self):

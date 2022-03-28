@@ -7,10 +7,9 @@ class logger():
     def setup():
         lg.basicConfig(level=lg.INFO,
                        filename='app.log',
-                       filemode='w',
-                       format='%(name)s - %(levelname)s - %message%s')
+                       filemode='w')
 
     @staticmethod
-    def log(message: string):
+    def log(message: any):
         print(message)
-        lg.log(message)
+        lg.info(message)

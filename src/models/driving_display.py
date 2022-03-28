@@ -11,10 +11,10 @@ class DrivingDisplay(AbstractDrivingDisplay):
 
     @property
     def ActualSpeed(self):
-        logger.log('Access actual car speed in driving display class.')
+        logger.log("Access actual car speed in driving display class.")
         return self.__drivingProcessor.ActualSpeed
 
     @property
     def ActualConsumption(self):
-        logger.log('Access actual consumption in driving display class.')
+        logger.log("Access actual consumption in driving display class.")
         return self.__drivingProcessor.LastConsumption

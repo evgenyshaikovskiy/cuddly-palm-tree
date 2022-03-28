@@ -35,12 +35,12 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
     @property
     def ActualSpeed(self):
-        logger.log('Access actual car speed in driving processor class.')
+        logger.log("Access actual car speed in driving processor class.")
         return self.__actualSpeed
 
     @property
     def LastConsumption(self):
-        logger.log('Access last consumption in driving proccessor class.')
+        logger.log("Access last consumption in driving proccessor class.")
         return self.__lastConsumption
 
     def CalculateConsumptionRate(self,
@@ -49,7 +49,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         currentSpeed = self.ActualSpeed
         consumption: float = 0
 
-        logger.log('Calculating consumption rate in driving proccesor class.')
+        logger.log("Calculating consumption rate in driving proccesor class.")
 
         if currentSpeed > 0:
             if currentSpeed < self.__maxSpeed * 0.25:
@@ -74,7 +74,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         return self.__lastConsumption
 
     def IncreaseSpeedTo(self, speed: int):
-        logger.log(f'Increasing speed by {speed} in driving proccesor class.')
+        logger.log(f"Increasing speed by {speed} in driving proccesor class.")
         if not self.__engine.IsRunning:
             return
 
@@ -92,7 +92,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__engine.Consume(self.CalculateConsumptionRate(True))
 
     def ReduceSpeedBy(self, reduceBy: int):
-        logger.log(f'Reducing speed by {reduceBy} in driving processor class.')
+        logger.log(f"Reducing speed by {reduceBy} in driving processor class.")
         if not self.__engine.IsRunning:
             return
 
