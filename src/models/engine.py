@@ -11,21 +11,20 @@ class Engine(AbstractEngine):
         self.__fuelTank: AbstractFuelTank = fuelTank
         self.__isRunning: bool = False
 
-    # property for private boolean value
     @property
-    def IsRunning(self):
+    def IsRunning(self) -> bool:
         logger.log("Check whether car is running in engine class.")
         return self.__isRunning
 
-    def Start(self):
+    def Start(self) -> None:
         logger.log("Start car engine in engine class.")
         self.__isRunning = True
 
-    def Stop(self):
+    def Stop(self) -> None:
         logger.log("Stop car engine in engine class.")
         self.__isRunning = False
 
-    def Consume(self, liters: float):
+    def Consume(self, liters: float) -> None:
         logger.log(f"Consume {liters} liters in engine class.")
         if self.__isRunning:
             self.__fuelTank.Consume(liters)

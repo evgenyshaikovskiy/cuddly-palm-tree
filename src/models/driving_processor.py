@@ -34,18 +34,18 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__accelerationRatio: float = accelerationRatio
 
     @property
-    def ActualSpeed(self):
+    def ActualSpeed(self) -> int:
         logger.log("Access actual car speed in driving processor class.")
         return self.__actualSpeed
 
     @property
-    def LastConsumption(self):
+    def LastConsumption(self) -> float:
         logger.log("Access last consumption in driving proccessor class.")
         return self.__lastConsumption
 
     def CalculateConsumptionRate(self,
                                  isAccelerating: bool = False,
-                                 isBraking: bool = False):
+                                 isBraking: bool = False) -> float:
         currentSpeed = self.ActualSpeed
         consumption: float = 0
 
@@ -73,7 +73,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__lastConsumption = consumption * config.DefaultCarCoefficient()
         return self.__lastConsumption
 
-    def IncreaseSpeedTo(self, speed: int):
+    def IncreaseSpeedTo(self, speed: int) -> None:
         logger.log(f"Increasing speed by {speed} in driving proccesor class.")
         if not self.__engine.IsRunning:
             return
@@ -91,7 +91,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         self.__engine.Consume(self.CalculateConsumptionRate(True))
 
-    def ReduceSpeedBy(self, reduceBy: int):
+    def ReduceSpeedBy(self, reduceBy: int) -> None:
         logger.log(f"Reducing speed by {reduceBy} in driving processor class.")
         if not self.__engine.IsRunning:
             return

@@ -7,7 +7,7 @@ class AbstractFuelTank(ABC):
     @property
     @abstractmethod
     def FillLevel(self):
-        "Indicates amount of fuel(in liters)"
+        """Indicates amount of fuel(in liters)"""
 
     @property
     @abstractmethod

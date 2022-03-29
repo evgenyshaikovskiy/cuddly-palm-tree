@@ -22,21 +22,21 @@ class FuelTank(AbstractFuelTank):
         self.__tankSize = tankSize
 
     @property
-    def FillLevel(self):
+    def FillLevel(self) -> float:
         logger.log("Access fill level in fuel tank class.")
         return self.__fillLevel
 
     @property
-    def IsOnReserve(self):
+    def IsOnReserve(self) -> bool:
         logger.log("Calculating whether car is on reverse in fuel tank class.")
         return self.__fillLevel < self.__onReserveBorder
 
     @property
-    def IsFull(self):
+    def IsFull(self) -> bool:
         logger.log("Calculating whether fuel tank is full in fuel tank class.")
         return self.__fillLevel == self.__tankSize
 
-    def Consume(self, liters: float):
+    def Consume(self, liters: float) -> None:
         logger.log(f"Consuming {liters} liters in fuel tank class.")
         self.__fillLevel -= liters
         self.__fillLevel = round(self.__fillLevel, 10)
@@ -44,7 +44,7 @@ class FuelTank(AbstractFuelTank):
         if self.__fillLevel < 0:
             self.__fillLevel = 0
 
-    def Refuel(self, liters: float):
+    def Refuel(self, liters: float) -> None:
         logger.log(f"Refuel tank by {liters} liters in fuel tank class.")
         self.__fillLevel += liters
 
