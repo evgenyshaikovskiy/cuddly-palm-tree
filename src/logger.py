@@ -10,6 +10,6 @@ class logger():
                        filemode='w')
 
     @staticmethod
-    def log(message: any):
+    def log(message: string):
         print(message)
         lg.info(message)

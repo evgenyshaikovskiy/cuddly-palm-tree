@@ -21,7 +21,7 @@ async def main():
               8 - Get information about car condition.
               To cancel programm press Space.
               ''')
-        action = int(input())
+        action: int = int(input())
 
         if action == 1:
             car.EngineStart()
