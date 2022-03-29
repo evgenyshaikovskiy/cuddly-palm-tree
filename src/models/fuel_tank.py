@@ -1,5 +1,4 @@
-from logger import logger
-
+from abstractions.logger import AbstractLogger
 from abstractions.fuel_tank import AbstractFuelTank
 from config import config
 
@@ -7,6 +6,7 @@ from config import config
 class FuelTank(AbstractFuelTank):
 
     def __init__(self,
+                 logger: AbstractLogger,
                  fillLevel=config.DefaultFillLevel(),
                  tankSize=config.DefaultTankSize(),
                  onReserveBorder=config.DefaultFillLevel()):
@@ -18,26 +18,27 @@ class FuelTank(AbstractFuelTank):
         if fillLevel > tankSize:
             fillLevel = tankSize
 
+        self.__logger = logger
         self.__fillLevel = fillLevel
         self.__tankSize = tankSize
 
     @property
     def FillLevel(self) -> float:
-        logger.log("Access fill level in fuel tank class.")
+        self.__logger.log("Access fill level in fuel tank class.")
         return self.__fillLevel
 
     @property
     def IsOnReserve(self) -> bool:
-        logger.log("Calculating whether car is on reverse in fuel tank class.")
+        self.__logger.log("Calculating whether car on reverse in fuel tank.")
         return self.__fillLevel < self.__onReserveBorder
 
     @property
     def IsFull(self) -> bool:
-        logger.log("Calculating whether fuel tank is full in fuel tank class.")
+        self.__logger.log("Calculating whether fuel tank full in fuel tank.")
         return self.__fillLevel == self.__tankSize
 
     def Consume(self, liters: float) -> None:
-        logger.log(f"Consuming {liters} liters in fuel tank class.")
+        self.__logger.log(f"Consuming {liters} liters in fuel tank class.")
         self.__fillLevel -= liters
         self.__fillLevel = round(self.__fillLevel, 10)
 
@@ -45,7 +46,7 @@ class FuelTank(AbstractFuelTank):
             self.__fillLevel = 0
 
     def Refuel(self, liters: float) -> None:
-        logger.log(f"Refuel tank by {liters} liters in fuel tank class.")
+        self.__logger.log(f"Refuel tank by {liters} liters in fuel tank.")
         self.__fillLevel += liters
 
         if self.__fillLevel > self.__tankSize:

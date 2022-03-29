@@ -1,5 +1,6 @@
 from config import config
-from logger import logger
+
+from abstractions.logger import AbstractLogger
 
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.engine import AbstractEngine
@@ -8,11 +9,13 @@ from abstractions.engine import AbstractEngine
 class DrivingProcessor(AbstractDrivingProcessor):
     def __init__(self,
                  engine: AbstractEngine,
+                 logger: AbstractLogger,
                  accelerationRatio=config.DefaultAccelerationRatio(),
                  maxAccelerationRatio=config.DefaultMaxAccelerationRatio(),
                  minAccelerationRatio=config.DefaultMinAccelerationRatio(),
                  maxSpeed=config.DefaultMaxSpeed(),
-                 brakingSpeed=config.DefaultBrakingSpeed()):
+                 brakingSpeed=config.DefaultBrakingSpeed(),
+                 ):
 
         # set initial speed to zero
         # TODO: introduce exception handling for min and max accelerationRatio
@@ -32,15 +35,16 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         self.__engine: AbstractEngine = engine
         self.__accelerationRatio: float = accelerationRatio
+        self.__logger = logger
 
     @property
     def ActualSpeed(self) -> int:
-        logger.log("Access actual car speed in driving processor class.")
+        self.__logger.log("Access actual car speed in driving processor.")
         return self.__actualSpeed
 
     @property
     def LastConsumption(self) -> float:
-        logger.log("Access last consumption in driving proccessor class.")
+        self.__logger.log("Access last consumption in driving proccessor.")
         return self.__lastConsumption
 
     def CalculateConsumptionRate(self,
@@ -49,7 +53,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         currentSpeed = self.ActualSpeed
         consumption: float = 0
 
-        logger.log("Calculating consumption rate in driving proccesor class.")
+        self.__logger.log("Calculating consumption rate in driving proccesor.")
 
         if currentSpeed > 0:
             if currentSpeed < self.__maxSpeed * 0.25:
@@ -74,7 +78,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         return self.__lastConsumption
 
     def IncreaseSpeedTo(self, speed: int) -> None:
-        logger.log(f"Increasing speed by {speed} in driving proccesor class.")
+        self.__logger.log(f"Increasing speed by {speed} in driving proccesor.")
         if not self.__engine.IsRunning:
             return
 
@@ -92,7 +96,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__engine.Consume(self.CalculateConsumptionRate(True))
 
     def ReduceSpeedBy(self, reduceBy: int) -> None:
-        logger.log(f"Reducing speed by {reduceBy} in driving processor class.")
+        self.__logger.log(f"Reducing speed by {reduceBy} km/h in driving pro.")
         if not self.__engine.IsRunning:
             return
 

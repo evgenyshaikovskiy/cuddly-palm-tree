@@ -7,7 +7,9 @@ logger.setup()
 
 async def main():
     # create default car modeling.
-    car: Car = Car()
+    logger_class = logger()
+    logger_class.disable_logging()
+    car: Car = Car(logger_class)
 
     while (True):
         print('''Choose action:
