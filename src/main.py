@@ -1,6 +1,7 @@
 import asyncio
 from logger import logger
 from models.car import Car
+from snapshot import CarSnapshot
 
 logger.setup()
 
@@ -8,8 +9,11 @@ logger.setup()
 async def main():
     # create default car modeling.
     logger_class = logger()
-    logger_class.disable_logging()
+    # logger_class.disable_logging()
     car: Car = Car(logger_class)
+
+    snapshot_service: CarSnapshot = CarSnapshot(car)
+    car.Subscribe(snapshot_service)
 
     while (True):
         print('''Choose action:

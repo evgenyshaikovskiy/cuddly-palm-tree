@@ -30,8 +30,8 @@ class Car(AbstractVehicle, Observable):
                  maxSpeed=config.DefaultMaxSpeed(),
                  brakingSpeed=config.DefaultBrakingSpeed()):
 
-        self.__logger = logger
-        self.__observer: Observer = CarSnapshot()
+        self.__logger: AbstractLogger = logger
+        self.__observers = []
 
         self.__fuelTank: AbstractFuelTank = FuelTank(self.__logger,
                                                      fillLevel,
@@ -57,19 +57,14 @@ class Car(AbstractVehicle, Observable):
             self.__drivingProcessor,
             self.__logger)
 
-    def Subscribe(observer: Observer) -> None:
-        return super().Subscribe()
-
-    def Unsubscribe(observer: Observer) -> None:
-        return super().Unsubscribe()
-
-    def Notify() -> None:
-        pass
-
     @property
     def EngineIsRunning(self):
         self.__logger.log("Checks whether engine is running in car class.")
         return self.__engine.IsRunning
+
+    @property
+    def __ActualSpeed__(self) -> int:
+        return self.__drivingDisplay.ActualSpeed
 
     def EngineStart(self) -> None:
         self.__logger.log("Starts an engine in car class.")
@@ -83,7 +78,8 @@ class Car(AbstractVehicle, Observable):
 
     def RunningIdle(self) -> None:
         self.__logger.log("Running idle in car calss.")
-        self.__engine.Consume(config.DefaultRunningIdleConsumptionRate)
+        self.Notify()
+        self.__engine.Consume(config.DefaultRunningIdleConsumptionRate())
 
     def FreeWheel(self) -> None:
         self.__logger.log("Free wheel in car class.")
@@ -101,12 +97,22 @@ class Car(AbstractVehicle, Observable):
         self.__logger.log(f"Refuel by {liters} in car class")
         self.__fuelTank.Refuel(liters)
 
+    def Subscribe(self, observer: Observer) -> None:
+        self.__observers.append(observer)
+
+    def Unsubscribe(self, observer: Observer) -> None:
+        self.__observers.remove(observer)
+
+    def Notify(self) -> None:
+        for item in self.__observers:
+            item.Handle()
+
     def GetInformationOnCar(self):
         if self.EngineIsRunning:
             print('For current moment car engine is running')
         else:
             print('For current moment car engine is not running')
 
-        print(f'''Actual speed is  {self.__drivingDisplay.ActualSpeed}
-        Actual consumption is {self.__drivingDisplay.ActualConsumption}
-        Actual fill level is {self.__fuelTankDisplay.FillLevel}''')
+        print(f'Actual speed is  {self.__drivingDisplay.ActualSpeed}')
+        print(f'Actual consumption {self.__drivingDisplay.ActualConsumption}')
+        print(f'Actual fill level is {self.__fuelTankDisplay.FillLevel}')

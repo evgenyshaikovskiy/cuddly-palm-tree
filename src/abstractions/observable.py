@@ -4,13 +4,13 @@ from abstractions.observer import Observer
 
 class Observable(ABC):
     @abstractmethod
-    def Subscribe(observer: Observer) -> None:
+    def Subscribe(self, observer: Observer) -> None:
         """Attach an observer to observable instance"""
 
     @abstractmethod
-    def Unsubscribe(observer: Observer) -> None:
+    def Unsubscribe(self, observer: Observer) -> None:
         """Detach an observer to observable instance"""
 
     @abstractmethod
-    def Notify() -> None:
+    def Notify(self) -> None:
         """Notify all observables"""
