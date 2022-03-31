@@ -1,14 +1,17 @@
 import asyncio
-from logger import logger
+from logger import Logger
 from models.car import Car
 from snapshot import CarSnapshot
 
-logger.setup()
+
+#consider to move to camel case convention naming
+
+Logger.setup()
 
 
 async def main():
     # create default car modeling.
-    logger_class = logger()
+    logger_class = Logger()
     # logger_class.disable_logging()
     car: Car = Car(logger_class)
 

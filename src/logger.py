@@ -4,7 +4,7 @@ import logging as lg
 import string
 
 
-class logger(AbstractLogger):
+class Logger(AbstractLogger):
     def __init__(self):
         self.__isLogging = True
 
@@ -14,13 +14,13 @@ class logger(AbstractLogger):
                        filename='app.log',
                        filemode='w')
 
-    def disable_logging(self):
-        self.__isLogging = False
-
-    def enable_logging(self):
-        self.__isLogging = True
-
     def log(self, message: string):
         if self.__isLogging:
             print(message)
             lg.info(message)
+
+    def __disable_logging__(self):
+        self.__isLogging = False
+
+    def __enable_logging__(self):
+        self.__isLogging = True
