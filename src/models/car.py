@@ -66,31 +66,42 @@ class Car(AbstractVehicle, Observable):
         if not self.__get_engine__.IsRunning and self.__get_fuel_tank__.FillLevel > 0:
             self.__get_engine__.Start()
 
+        self.Notify()
+
+
     def EngineStop(self) -> None:
         self.__logger.log("Stops an engine in car class.")
         if self.__get_engine__.IsRunning:
             self.__get_engine__.Stop()
 
+        self.Notify()
+
+
     def RunningIdle(self) -> None:
         self.__logger.log("Running idle in car calss.")
-        self.Notify()
         self.__get_engine__.Consume(config.DefaultRunningIdleConsumptionRate())
+        self.Notify()
+
 
     def FreeWheel(self) -> None:
         self.__logger.log("Free wheel in car class.")
         self.__get_driving_processor__.ReduceSpeedBy(1)
+        self.Notify()
 
     def BrakeBy(self, speed: int) -> None:
         self.__logger.log(f"Break by {speed} in car class.")
         self.__get_driving_processor__.ReduceSpeedBy(speed)
+        self.Notify()
 
     def Accelerate(self, speed: int) -> None:
         self.__logger.log(f"Accelerate by {speed} in car class")
         self.__get_driving_processor__.IncreaseSpeedTo(speed)
+        self.Notify()
 
     def Refuel(self, liters: float) -> None:
         self.__logger.log(f"Refuel by {liters} in car class")
         self.__get_fuel_tank__.Refuel(liters)
+        self.Notify()
 
     def Subscribe(self, observer: Observer) -> None:
         self.__observers.append(observer)
