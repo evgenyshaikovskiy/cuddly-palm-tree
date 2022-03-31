@@ -1,7 +1,7 @@
 import asyncio
-from logger import Logger
+from utility.logger import Logger
 from models.car import Car
-from snapshot import SnapshotService
+from utility.snapshot import SnapshotService
 
 
 #consider to move to camel case convention naming

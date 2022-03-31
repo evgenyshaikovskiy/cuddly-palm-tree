@@ -1,6 +1,6 @@
 from abstractions.logger import AbstractLogger
 from abstractions.fuel_tank import AbstractFuelTank
-from config import config
+from utility.config import config
 
 
 class FuelTank(AbstractFuelTank):

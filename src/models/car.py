@@ -1,4 +1,4 @@
-from config import config
+from utility.config import config
 
 from abstractions.logger import AbstractLogger
 from abstractions.vehicle import AbstractVehicle
