@@ -1,4 +1,4 @@
-from logger import logger
+from logger import Logger
 
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.driving_display import AbstractDrivingDisplay

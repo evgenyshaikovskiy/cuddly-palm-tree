@@ -31,7 +31,7 @@ class FuelTank(AbstractFuelTank):
     @property
     def IsOnReserve(self) -> bool:
         self.__logger.log("Calculating whether car on reverse in fuel tank.")
-        return self.__fillLevel < self.__get_on_reserve_border
+        return self.__fillLevel < self.__get_on_reserve_border__
 
     @property
     def IsFull(self) -> bool:
@@ -58,5 +58,5 @@ class FuelTank(AbstractFuelTank):
         return self.__tankSize
 
     @property
-    def __get_on_reserve_border(self) -> int:
+    def __get_on_reserve_border__(self) -> int:
         return self.__onReserveBorder

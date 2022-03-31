@@ -91,7 +91,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         if self.__actualSpeed < speed:
             self.__actualSpeed = min(speed, self.__actualSpeed +
-                                     self.__get_car_acceleration_ratio)
+                                     self.__get_car_acceleration_ratio__)
 
         if self.__actualSpeed > self.__get_car_maxspeed__:
             self.__actualSpeed = self.__get_car_maxspeed__
@@ -103,7 +103,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         if not self.__get_car_engine__.IsRunning:
             return
 
-        self.__actualSpeed -= min(reduceBy, self.__get_car_braking_speed)
+        self.__actualSpeed -= min(reduceBy, self.__get_car_braking_speed__)
 
         if self.__actualSpeed < 0:
             self.__actualSpeed = 0
@@ -119,17 +119,17 @@ class DrivingProcessor(AbstractDrivingProcessor):
         return self.__maxSpeed
 
     @property
-    def __get_car_braking_speed(self) -> int:
+    def __get_car_braking_speed__(self) -> int:
         return self.__brakingSpeed
 
     @property
-    def __get_car_acceleration_ratio(self) -> int:
+    def __get_car_acceleration_ratio__(self) -> int:
         return self.__accelerationRatio
 
     @property
-    def __get_car_max_acceleration_ratio(self) -> int:
+    def __get_car_max_acceleration_ratio__(self) -> int:
         return self.__max_acceleration_ratio
 
     @property
-    def __get_car_min_acceleration_ratio(self) -> int:
+    def __get_car_min_acceleration_ratio__(self) -> int:
         return self.__min_acceleration_ratio

@@ -1,7 +1,7 @@
 import asyncio
 from logger import Logger
 from models.car import Car
-from snapshot import CarSnapshot
+from snapshot import SnapshotService
 
 
 #consider to move to camel case convention naming
@@ -15,7 +15,7 @@ async def main():
     # logger_class.disable_logging()
     car: Car = Car(logger_class)
 
-    snapshot_service: CarSnapshot = CarSnapshot(car)
+    snapshot_service: SnapshotService = SnapshotService(car)
     car.Subscribe(snapshot_service)
 
     while (True):
