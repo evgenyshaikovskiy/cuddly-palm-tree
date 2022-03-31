@@ -19,8 +19,8 @@ class Logger(AbstractLogger):
             print(message)
             lg.info(message)
 
-    def __disable_logging__(self):
+    def disable_logging(self):
         self.__isLogging = False
 
-    def __enable_logging__(self):
+    def enable_logging(self):
         self.__isLogging = True
