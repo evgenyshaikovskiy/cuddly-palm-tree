@@ -54,9 +54,9 @@ class FuelTank(AbstractFuelTank):
             self.__fillLevel = self.__get_tank_size__
 
     @property
-    def __get_tank_size__(self) -> int:
+    def __get_tank_size__(self) -> float:
         return self.__tankSize
 
     @property
-    def __get_on_reserve_border__(self) -> int:
+    def __get_on_reserve_border__(self) -> float:
         return self.__onReserveBorder

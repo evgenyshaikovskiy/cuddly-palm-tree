@@ -21,9 +21,9 @@ class DrivingProcessor(AbstractDrivingProcessor):
         # set initial speed to zero
         # TODO: introduce exception handling for min and max accelerationRatio
         # and max speed
-        self.__maxSpeed: int = maxSpeed
-        self.__brakingSpeed: int = brakingSpeed
-        self.__actualSpeed: int = 0
+        self.__maxSpeed: float = maxSpeed
+        self.__brakingSpeed: float = brakingSpeed
+        self.__actualSpeed: float = 0
 
         # consumption on init is 0
         self.__lastConsumption: float = 0
@@ -41,7 +41,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__logger = logger
 
     @property
-    def ActualSpeed(self) -> int:
+    def ActualSpeed(self) -> float:
         self.__logger.log("Access actual car speed in driving processor.")
         return self.__actualSpeed
 
@@ -80,7 +80,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__lastConsumption = consumption * config.DefaultCarCoefficient()
         return self.__lastConsumption
 
-    def IncreaseSpeedTo(self, speed: int) -> None:
+    def IncreaseSpeedTo(self, speed: float) -> None:
         self.__logger.log(f"Increasing speed by {speed} in driving proccesor.")
         if not self.__get_car_engine__.IsRunning:
             return
@@ -98,7 +98,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         self.__get_car_engine__.Consume(self.CalculateConsumptionRate(True))
 
-    def ReduceSpeedBy(self, reduceBy: int) -> None:
+    def ReduceSpeedBy(self, reduceBy: float) -> None:
         self.__logger.log(f"Reducing speed by {reduceBy} km/h in driving pro.")
         if not self.__get_car_engine__.IsRunning:
             return
@@ -115,21 +115,21 @@ class DrivingProcessor(AbstractDrivingProcessor):
         return self.__engine
 
     @property
-    def __get_car_maxspeed__(self) -> int:
+    def __get_car_maxspeed__(self) -> float:
         return self.__maxSpeed
 
     @property
-    def __get_car_braking_speed__(self) -> int:
+    def __get_car_braking_speed__(self) -> float:
         return self.__brakingSpeed
 
     @property
-    def __get_car_acceleration_ratio__(self) -> int:
+    def __get_car_acceleration_ratio__(self) -> float:
         return self.__accelerationRatio
 
     @property
-    def __get_car_max_acceleration_ratio__(self) -> int:
+    def __get_car_max_acceleration_ratio__(self) -> float:
         return self.__max_acceleration_ratio
 
     @property
-    def __get_car_min_acceleration_ratio__(self) -> int:
+    def __get_car_min_acceleration_ratio__(self) -> float:
         return self.__min_acceleration_ratio

@@ -88,12 +88,12 @@ class Car(AbstractVehicle, Observable):
         self.__get_driving_processor__.ReduceSpeedBy(1)
         self.Notify()
 
-    def BrakeBy(self, speed: int) -> None:
+    def BrakeBy(self, speed: float) -> None:
         self.__logger.log(f"Break by {speed} in car class.")
         self.__get_driving_processor__.ReduceSpeedBy(speed)
         self.Notify()
 
-    def Accelerate(self, speed: int) -> None:
+    def Accelerate(self, speed: float) -> None:
         self.__logger.log(f"Accelerate by {speed} in car class")
         self.__get_driving_processor__.IncreaseSpeedTo(speed)
         self.Notify()

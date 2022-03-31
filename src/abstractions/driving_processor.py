@@ -22,9 +22,9 @@ class AbstractDrivingProcessor(ABC):
         """Gets comsumption level based on coefficient and car actual speed"""
 
     @abstractmethod
-    def IncreaseSpeedTo(self, speed: int):
+    def IncreaseSpeedTo(self, speed: float):
         """Increase speed until certain 'speed' (in kilometrs per hour)"""
 
     @abstractmethod
-    def ReduceSpeedBy(self, reduceBy: int):
+    def ReduceSpeedBy(self, reduceBy: float):
         """Reduces speed to certain value 'speed'(in kilometers per hour)"""

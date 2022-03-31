@@ -30,9 +30,9 @@ class AbstractVehicle(ABC):
         """Method which runs vehicle in mode where fuel doesn't consume"""
 
     @abstractmethod
-    def BrakeBy(self, speed: int):
+    def BrakeBy(self, speed: float):
         """Method which launches breaking in vehicle"""
 
     @abstractmethod
-    def Accelerate(self, speed: int):
+    def Accelerate(self, speed: float):
         """Method which launches acceleration in vehicle"""

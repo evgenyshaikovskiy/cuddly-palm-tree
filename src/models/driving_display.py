@@ -13,7 +13,7 @@ class DrivingDisplay(AbstractDrivingDisplay):
         self.__logger = logger
 
     @property
-    def ActualSpeed(self) -> int:
+    def ActualSpeed(self) -> float:
         self.__logger.log("Access actual car speed in driving display class.")
         return self.__get_driving_processor__.ActualSpeed
 
