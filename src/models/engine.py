@@ -3,7 +3,6 @@ from abstractions.engine import AbstractEngine
 from abstractions.fuel_tank import AbstractFuelTank
 
 
-# concrete realization of engine abstract class
 class Engine(AbstractEngine):
 
     def __init__(self, logger: AbstractLogger, fuelTank: AbstractFuelTank):
@@ -27,7 +26,11 @@ class Engine(AbstractEngine):
     def Consume(self, liters: float) -> None:
         self.__logger.log(f"Consume {liters} liters in engine class.")
         if self.__isRunning:
-            self.__fuelTank.Consume(liters)
+            self.__get_fuel_tank__.Consume(liters)
 
-            if self.__fuelTank.FillLevel == 0:
+            if self.__get_fuel_tank__.FillLevel == 0:
                 self.Stop()
+
+    @property
+    def __get_fuel_tank__(self) -> AbstractFuelTank:
+        return self.__fuelTank

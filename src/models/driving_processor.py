@@ -4,6 +4,7 @@ from abstractions.logger import AbstractLogger
 
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.engine import AbstractEngine
+from models.engine import Engine
 
 
 class DrivingProcessor(AbstractDrivingProcessor):
@@ -35,6 +36,8 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         self.__engine: AbstractEngine = engine
         self.__accelerationRatio: float = accelerationRatio
+        self.__max_acceleration_ratio: float = maxAccelerationRatio
+        self.__min_acceleration_ratio: float = minAccelerationRatio
         self.__logger = logger
 
     @property
@@ -56,13 +59,13 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__logger.log("Calculating consumption rate in driving proccesor.")
 
         if currentSpeed > 0:
-            if currentSpeed < self.__maxSpeed * 0.25:
+            if currentSpeed < self.__get_car_maxspeed__ * 0.25:
                 consumption = config.DefaultRunningQuaterConsumptionRate()
-            elif currentSpeed < self.__maxSpeed * 0.5:
+            elif currentSpeed < self.__get_car_maxspeed__ * 0.5:
                 consumption = config.DefaultRunningHalfConsumptionRate()
-            elif currentSpeed < self.__maxSpeed * 0.75:
+            elif currentSpeed < self.__get_car_maxspeed__ * 0.75:
                 consumption = config.DefaultRunningHalfConsumptionRate()
-            elif currentSpeed < self.__maxSpeed:
+            elif currentSpeed < self.__get_car_maxspeed__:
                 consumption = config.DefaultRunningUpperHalfConsumptionRate()
             elif currentSpeed == config.DefaultMaxSpeed():
                 consumption = config.DefaultRunningMaxSpeedConsumptionRate()
@@ -79,7 +82,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
     def IncreaseSpeedTo(self, speed: int) -> None:
         self.__logger.log(f"Increasing speed by {speed} in driving proccesor.")
-        if not self.__engine.IsRunning:
+        if not self.__get_car_engine__.IsRunning:
             return
 
         # exception???
@@ -88,21 +91,45 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         if self.__actualSpeed < speed:
             self.__actualSpeed = min(speed, self.__actualSpeed +
-                                     self.__accelerationRatio)
+                                     self.__get_car_acceleration_ratio)
 
-        if self.__actualSpeed > self.__maxSpeed:
-            self.__actualSpeed = self.__maxSpeed
+        if self.__actualSpeed > self.__get_car_maxspeed__:
+            self.__actualSpeed = self.__get_car_maxspeed__
 
-        self.__engine.Consume(self.CalculateConsumptionRate(True))
+        self.__get_car_engine__.Consume(self.CalculateConsumptionRate(True))
 
     def ReduceSpeedBy(self, reduceBy: int) -> None:
         self.__logger.log(f"Reducing speed by {reduceBy} km/h in driving pro.")
-        if not self.__engine.IsRunning:
+        if not self.__get_car_engine__.IsRunning:
             return
 
-        self.__actualSpeed -= min(reduceBy, self.__brakingSpeed)
+        self.__actualSpeed -= min(reduceBy, self.__get_car_braking_speed)
 
         if self.__actualSpeed < 0:
             self.__actualSpeed = 0
 
-        self.__engine.Consume(self.CalculateConsumptionRate(False, True))
+        self.__get_car_engine__.Consume(self.CalculateConsumptionRate(False, True))
+
+    @property
+    def __get_car_engine__(self) -> AbstractEngine:
+        return self.__engine
+
+    @property
+    def __get_car_maxspeed__(self) -> int:
+        return self.__maxSpeed
+
+    @property
+    def __get_car_braking_speed(self) -> int:
+        return self.__brakingSpeed
+
+    @property
+    def __get_car_acceleration_ratio(self) -> int:
+        return self.__accelerationRatio
+
+    @property
+    def __get_car_max_acceleration_ratio(self) -> int:
+        return self.__max_acceleration_ratio
+
+    @property
+    def __get_car_min_acceleration_ratio(self) -> int:
+        return self.__min_acceleration_ratio

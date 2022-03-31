@@ -10,6 +10,7 @@ class FuelTank(AbstractFuelTank):
                  fillLevel=config.DefaultFillLevel(),
                  tankSize=config.DefaultTankSize(),
                  onReserveBorder=config.DefaultFillLevel()):
+
         self.__onReserveBorder: float = onReserveBorder
 
         if fillLevel < 0:
@@ -30,12 +31,12 @@ class FuelTank(AbstractFuelTank):
     @property
     def IsOnReserve(self) -> bool:
         self.__logger.log("Calculating whether car on reverse in fuel tank.")
-        return self.__fillLevel < self.__onReserveBorder
+        return self.__fillLevel < self.__get_on_reserve_border
 
     @property
     def IsFull(self) -> bool:
         self.__logger.log("Calculating whether fuel tank full in fuel tank.")
-        return self.__fillLevel == self.__tankSize
+        return self.__fillLevel == self.__get_tank_size__
 
     def Consume(self, liters: float) -> None:
         self.__logger.log(f"Consuming {liters} liters in fuel tank class.")
@@ -49,5 +50,13 @@ class FuelTank(AbstractFuelTank):
         self.__logger.log(f"Refuel tank by {liters} liters in fuel tank.")
         self.__fillLevel += liters
 
-        if self.__fillLevel > self.__tankSize:
-            self.__fillLevel = self.__tankSize
+        if self.__fillLevel > self.__get_tank_size__:
+            self.__fillLevel = self.__get_tank_size__
+
+    @property
+    def __get_tank_size__(self) -> int:
+        return self.__tankSize
+
+    @property
+    def __get_on_reserve_border(self) -> int:
+        return self.__onReserveBorder

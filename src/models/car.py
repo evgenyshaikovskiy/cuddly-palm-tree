@@ -1,5 +1,4 @@
 from config import config
-from snapshot import CarSnapshot
 
 from abstractions.logger import AbstractLogger
 from abstractions.vehicle import AbstractVehicle

@@ -12,14 +12,18 @@ class FuelTankDisplay(AbstractFuelTankDisplay):
     @property
     def FillLevel(self) -> float:
         self.__logger.log("Access fill level in fuel tank display.")
-        return round(self.__fuelTank.FillLevel)
+        return round(self.__get_fuel_tank__.FillLevel)
 
     @property
     def IsOnReserve(self) -> bool:
         self.__logger.log("Check whether car is on reverse in tank display.")
-        return self.__fuelTank.IsOnReserve
+        return self.__get_fuel_tank__.IsOnReserve
 
     @property
     def IsFull(self) -> bool:
         self.__logger.log("Check whether fuel tank is full in tank display.")
-        return self.__fuelTank.IsFull
+        return self.__get_fuel_tank__.IsFull
+
+    @property
+    def __get_fuel_tank__(self) -> AbstractFuelTank:
+        return self.__fuelTank
