@@ -1,5 +1,6 @@
 import asyncio
 from abstractions.vehicle import AbstractVehicle
+from utility.file_service import File_Service
 from utility.logger import Logger
 from models.car import Car
 from utility.restore import RestoreService
@@ -11,6 +12,8 @@ Logger.setup()
 # initialize services and loggers
 snapshot_service: SnapshotService = SnapshotService()
 restore_service: RestoreService = RestoreService()
+file_service: File_Service = File_Service()
+
 logger = Logger()
 
 
@@ -32,7 +35,7 @@ def main():
         elif action == 2:
             asyncio.run(run_car(restore_service.restore_car(logger)))
         elif action == 3:
-            pass
+            file_service.delete_car_saves()
         elif action == 4:
             logger.enable_logging()
         elif action == 5:
