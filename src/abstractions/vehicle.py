@@ -6,33 +6,33 @@ class AbstractVehicle(ABC):
 
     @property
     @abstractmethod
-    def EngineIsRunning(self):
+    def engine_is_running(self):
         """Indicates whether engine is running or not"""
 
     @abstractmethod
-    def EngineStart(self):
+    def engine_start(self):
         """Starts an engine"""
 
     @abstractmethod
-    def EngineStop(self):
+    def engine_stop(self):
         """Stops an engine"""
 
     @abstractmethod
-    def Refuel(self, liters: float):
+    def refuel(self, liters: float):
         """Refuel vehicle by certain amount of fuel(in liters)"""
 
     @abstractmethod
-    def RunningIdle(self):
+    def running_idle(self):
         """Method which runs vehicle until certain event"""
 
     @abstractmethod
-    def FreeWheel(self):
+    def free_wheel(self):
         """Method which runs vehicle in mode where fuel doesn't consume"""
 
     @abstractmethod
-    def BrakeBy(self, speed: float):
+    def brake_by(self, speed: float):
         """Method which launches breaking in vehicle"""
 
     @abstractmethod
-    def Accelerate(self, speed: float):
+    def accelerate(self, speed: float):
         """Method which launches acceleration in vehicle"""

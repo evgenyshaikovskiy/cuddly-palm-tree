@@ -6,17 +6,17 @@ class AbstractEngine(ABC):
 
     @property
     @abstractmethod
-    def IsRunning(self):
+    def is_running(self):
         """Indicates whether engine is running"""
 
     @abstractmethod
-    def Consume(self, liters: float):
+    def consume(self, liters: float):
         """Consumes certain amount of liters"""
 
     @abstractmethod
-    def Start(self):
+    def start(self):
         """Starts an engine"""
 
     @abstractmethod
-    def Stop(self):
+    def stop(self):
         """Stops an engine"""
