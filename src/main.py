@@ -6,8 +6,11 @@ from utility.restore import RestoreService
 from utility.snapshot import SnapshotService
 
 
-# consider to move to camel case convention naming
 Logger.setup()
+
+# initialize services and loggers
+snapshot_service: SnapshotService = SnapshotService()
+restore_service: RestoreService = RestoreService()
 logger = Logger()
 
 
@@ -27,11 +30,9 @@ def main():
         if action == 1:
             asyncio.run(run_car(None))
         elif action == 2:
-            restore_service: RestoreService = RestoreService()
             asyncio.run(run_car(restore_service.restore_car(logger)))
-            print('restore service')
         elif action == 3:
-            print('destroy service')
+            pass
         elif action == 4:
             logger.enable_logging()
         elif action == 5:
@@ -45,11 +46,9 @@ async def run_car(car: AbstractVehicle):
     if car is None:
         car = Car(logger)
     else:
-        restore_service: RestoreService = RestoreService()
         car = restore_service.restore_car(logger)
 
     # start tracking new or already created car
-    snapshot_service: SnapshotService = SnapshotService()
     car.subscribe(snapshot_service)
     while (True):
         print('''Choose action:
@@ -98,6 +97,7 @@ async def run_car(car: AbstractVehicle):
             await asyncio.sleep(0.5)
         elif action == 9:
             print('Stopping simulation...')
+            car.unsubscribe(snapshot_service)
             break
 
 main()
