@@ -2,6 +2,7 @@ from abstractions.logger import AbstractLogger
 from models.car import Car
 import string
 
+
 class RestoreService():
     def __init__(self):
         # instantiate fields
@@ -31,7 +32,7 @@ class RestoreService():
                        self.__min_acceleration_ratio,
                        self.__car_max_speed,
                        self.__get_car_braking_speed__)
-        
+
         return car
 
     def __read_file__(self) -> None:
@@ -44,7 +45,7 @@ class RestoreService():
             self.__set_car_min_acceleration_ratio__(float(file.readline()))
             self.__set_car_max_speed__(float(file.readline()))
             self.__set_car_braking_speed__(float(file.readline()))
-            
+
             self.__set_car_actual_speed__(float(file.readline()))
             self.__set_car_actual_consumption__(float(file.readline()))
 

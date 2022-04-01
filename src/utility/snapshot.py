@@ -8,12 +8,13 @@ from abstractions.observer import Observer
 from abstractions.vehicle import AbstractVehicle
 from abstractions.logger import AbstractLogger
 
+
 class SnapshotService(Observer):
     def __init__(self) -> None:
         self.__car: AbstractVehicle = None
 
     def Handle(self, car: AbstractVehicle, logger: AbstractLogger) -> None:
-        self.__car  = car
+        self.__car = car
         logger.disable_logging()
         self.__save_car__()
         logger.enable_logging()
@@ -28,15 +29,15 @@ class SnapshotService(Observer):
         with open('car_information.txt', 'w', encoding='UTF-8') as file:
             # first write constructor parameters
             file.write(str(self.__fuel_tank_display.FillLevel) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_max_acceleration_ratio__'))+ '\n')
-            file.write(str(self.__fuel_tank.__getattribute__('__get_tank_size__'))+ '\n')
-            file.write(str(self.__fuel_tank.__getattribute__('__get_on_reserve_border__'))+ '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_acceleration_ratio__'))+ '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_min_acceleration_ratio__'))+ '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_maxspeed__'))+ '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_braking_speed__'))+ '\n')
+            file.write(str(self.__driving_processor.__getattribute__('__get_car_max_acceleration_ratio__')) + '\n')
+            file.write(str(self.__fuel_tank.__getattribute__('__get_tank_size__')) + '\n')
+            file.write(str(self.__fuel_tank.__getattribute__('__get_on_reserve_border__')) + '\n')
+            file.write(str(self.__driving_processor.__getattribute__('__get_car_acceleration_ratio__')) + '\n')
+            file.write(str(self.__driving_processor.__getattribute__('__get_car_min_acceleration_ratio__')) + '\n')
+            file.write(str(self.__driving_processor.__getattribute__('__get_car_maxspeed__')) + '\n')
+            file.write(str(self.__driving_processor.__getattribute__('__get_car_braking_speed__')) + '\n')
 
             # write changing parameters
-            file.write(str(self.__driving_display.ActualSpeed)+ '\n')
-            file.write(str(self.__driving_display.ActualConsumption)+ '\n')
+            file.write(str(self.__driving_display.ActualSpeed) + '\n')
+            file.write(str(self.__driving_display.ActualConsumption) + '\n')
             file.write(str(self.__car.EngineIsRunning))

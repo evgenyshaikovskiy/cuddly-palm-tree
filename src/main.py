@@ -6,8 +6,7 @@ from utility.restore import RestoreService
 from utility.snapshot import SnapshotService
 
 
-#consider to move to camel case convention naming
-
+# consider to move to camel case convention naming
 Logger.setup()
 logger = Logger()
 
@@ -41,13 +40,14 @@ def main():
             print('Closing application...')
             break
 
+
 async def run_car(car: AbstractVehicle):
     if car is None:
         car = Car(logger)
     else:
         restore_service: RestoreService = RestoreService()
         car = restore_service.restore_car(logger)
-        
+
     # start tracking new or already created car
     snapshot_service: SnapshotService = SnapshotService()
     car.Subscribe(snapshot_service)
