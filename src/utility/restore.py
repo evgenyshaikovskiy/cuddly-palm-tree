@@ -1,4 +1,6 @@
+from abstractions.logger import AbstractLogger
 from models.car import Car
+import string
 
 class RestoreService():
     def __init__(self):
@@ -16,10 +18,48 @@ class RestoreService():
         self.__actual_consumption: float = None
         self.__is_engine_running: bool = None
 
-    def __read__file__(self) -> None:
+    def restore_car(self, logger: AbstractLogger) -> Car:
+        # read file
+        self.__read_file__()
+
+        car: Car = Car(logger,
+                       self.__get_fill_level__,
+                       self.__get_car_max_acceleration_ratio__,
+                       self.__get_tank_size__,
+                       self.__on_reserve_border,
+                       self.__acceleration_ratio,
+                       self.__min_acceleration_ratio,
+                       self.__car_max_speed,
+                       self.__get_car_braking_speed__)
+        
+        return car
+
+    def __read_file__(self) -> None:
         with open('car_information.txt', 'r') as file:
             self.__set_fill_level__(float(file.readline()))
             self.__set_car_max_acceleration_ratio(float(file.readline()))
+            self.__set_tank_size__(float(file.readline()))
+            self.__set_on_reserve_border__(float(file.readline()))
+            self.__set_car_acceleration_ratio__(float(file.readline()))
+            self.__set_car_min_acceleration_ratio__(float(file.readline()))
+            self.__set_car_max_speed__(float(file.readline()))
+            self.__set_car_braking_speed__(float(file.readline()))
+            
+            self.__set_car_actual_speed__(float(file.readline()))
+            self.__set_car_actual_consumption__(float(file.readline()))
+
+            # refactor this boolean
+            is_engine_running: bool = None
+            parsed_boolean: string = str(file.readline())
+            if parsed_boolean == 'True':
+                is_engine_running = True
+            elif parsed_boolean == 'False':
+                is_engine_running = False
+            else:
+                # exception
+                print('Corrupted input')
+
+            self.__set_is_engine_running__(is_engine_running)
 
     @property
     def __get_fill_level__(self) -> float:
@@ -95,5 +135,5 @@ class RestoreService():
     def __get_is_engine_running__(self) -> bool:
         return self.__is_engine_running
 
-    def __set_is_engine_running(self, value: bool):
+    def __set_is_engine_running__(self, value: bool):
         self.__is_engine_running = value
