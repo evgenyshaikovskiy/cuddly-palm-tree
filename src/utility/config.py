@@ -2,69 +2,69 @@
 
 class config():
     @staticmethod
-    def DefaultFillLevel():
+    def default_fill_level():
         return 20
 
     @staticmethod
-    def DefaultTankSize():
+    def default_tank_size():
         return 60
 
     @staticmethod
-    def DefaultOnReserveBorder():
+    def default_on_reserve_border():
         return 5
 
     @staticmethod
-    def DefaultMaxAccelerationRatio():
+    def default_max_acceleraton_ratio():
         return 20
 
     @staticmethod
-    def DefaultMinAccelerationRatio():
+    def default_min_acceleration_ratio():
         return 5
 
     @staticmethod
-    def DefaultMaxSpeed():
+    def default_max_speed():
         return 250
 
     @staticmethod
-    def DefaultBrakingSpeed():
+    def default_braking_speed():
         return 10
 
     @staticmethod
-    def DefaultAccelerationRatio():
+    def default_acceleration_ratio():
         return 10
 
     @staticmethod
-    def DefaultCarCoefficient():
+    def default_car_coefficient():
         return 1
 
     @staticmethod
-    def DefaultAcceleratingCoefficient():
+    def default_acceleration_coefficient():
         return 1.3
 
     @staticmethod
-    def DefaultBrakingCoefficient():
+    def default_braking_coefficient():
         return 0.1
 
     @staticmethod
-    def DefaultRunningIdleConsumptionRate():
+    def default_running_idle_consumption_rate():
         return 0.001
 
     @staticmethod
-    def DefaultRunningQuaterConsumptionRate():
+    def default_running_quater_consumption_rate():
         return 0.006
 
     @staticmethod
-    def DefaultRunningHalfConsumptionRate():
+    def default_running_half_consumption_rate():
         return 0.012
 
     @staticmethod
-    def DefaultRunningUpperHalfConsumptionRate():
+    def default_running_upper_half_consumption_rate():
         return 0.024
 
     @staticmethod
-    def DefaultRunningBeforeMaxConsumptionRate():
+    def default_running_before_max_consumption_rate():
         return 0.048
 
     @staticmethod
-    def DefaultRunningMaxSpeedConsumptionRate():
+    def default_running_max_speed_consumption_rate():
         return 0.096

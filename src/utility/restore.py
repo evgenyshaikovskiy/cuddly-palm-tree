@@ -35,12 +35,12 @@ class RestoreService():
 
         # restore car to it's initial condition
         if self.__get_is_engine_running__:
-            car.EngineStart()
+            car.engine_start()
 
-        car.Accelerate(self.__get_car_actual_speed__)
+        car.accelerate(self.__get_car_actual_speed__)
 
         # refuel difference
-        car.Refuel(self.__get_fill_level__  - car.__get_fuel_tank_display__.FillLevel)
+        car.refuel(self.__get_fill_level__  - car.__get_fuel_tank_display__.fill_level)
         logger.enable_logging()
         return car
 
