@@ -111,7 +111,7 @@ class Car(AbstractVehicle, Observable):
 
     def Notify(self) -> None:
         for item in self.__observers:
-            item.Handle()
+            item.Handle(self, self.__logger)
 
     def GetInformationOnCar(self) -> None:
         if self.EngineIsRunning:

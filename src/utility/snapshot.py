@@ -9,26 +9,21 @@ from abstractions.vehicle import AbstractVehicle
 from abstractions.logger import AbstractLogger
 
 class SnapshotService(Observer):
-    def __init__(self, car: AbstractVehicle, logger: AbstractLogger) -> None:
-        self.__car: AbstractVehicle = car
-        self.__logger: AbstractLogger = logger
+    def __init__(self) -> None:
+        self.__car: AbstractVehicle = None
+
+    def Handle(self, car: AbstractVehicle, logger: AbstractLogger) -> None:
+        self.__car  = car
+        logger.disable_logging()
+        self.__save_car__()
+        logger.enable_logging()
+
+    def __save_car__(self) -> None:
+        # get car parts
         self.__driving_display: AbstractDrivingDisplay = self.__car.__getattribute__('__get_driving_display__')
         self.__fuel_tank_display: AbstractFuelTankDisplay = self.__car.__getattribute__('__get_fuel_tank_display__')
         self.__driving_processor: AbstractDrivingProcessor = self.__car.__getattribute__('__get_driving_processor__')
         self.__fuel_tank: AbstractFuelTank = self.__car.__getattribute__('__get_fuel_tank__')
-
-        # additional fields help to recreate the car
-        self.__initial_fill_level = None
-        self.__initial_consumption_level = None
-
-    def Handle(self) -> None:
-        self.__logger.disable_logging()
-        self.__save_car__()
-        self.__logger.enable_logging()
-
-    def __save_car__(self) -> None:
-        self.__initial_fill_level = self.__fuel_tank_display.FillLevel
-        self.__initial_consumption_level = self.__driving_display.ActualConsumption
 
         with open('car_information.txt', 'w', encoding='UTF-8') as file:
             # first write constructor parameters
