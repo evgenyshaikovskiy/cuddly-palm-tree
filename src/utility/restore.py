@@ -22,23 +22,32 @@ class RestoreService():
     def restore_car(self, logger: AbstractLogger) -> Car:
         # read file
         self.__read_file__()
-
+        logger.disable_logging()
         car: Car = Car(logger,
                        self.__get_fill_level__,
                        self.__get_car_max_acceleration_ratio__,
                        self.__get_tank_size__,
-                       self.__on_reserve_border,
-                       self.__acceleration_ratio,
-                       self.__min_acceleration_ratio,
-                       self.__car_max_speed,
+                       self.__get_on_reserve_border__,
+                       self.__get_car_acceleration_ratio__,
+                       self.__get_car_min_acceleration_ratio__,
+                       self.__get_car_max_speed__,
                        self.__get_car_braking_speed__)
 
+        # restore car to it's initial condition
+        if self.__get_is_engine_running__:
+            car.EngineStart()
+
+        car.Accelerate(self.__get_car_actual_speed__)
+
+        # refuel difference
+        car.Refuel(self.__get_fill_level__  - car.__get_fuel_tank_display__.FillLevel)
+        logger.enable_logging()
         return car
 
     def __read_file__(self) -> None:
         with open('car_information.txt', 'r') as file:
             self.__set_fill_level__(float(file.readline()))
-            self.__set_car_max_acceleration_ratio(float(file.readline()))
+            self.__set_car_max_acceleration_ratio__(float(file.readline()))
             self.__set_tank_size__(float(file.readline()))
             self.__set_on_reserve_border__(float(file.readline()))
             self.__set_car_acceleration_ratio__(float(file.readline()))
@@ -73,7 +82,7 @@ class RestoreService():
     def __get_car_max_acceleration_ratio__(self) -> float:
         return self.__car_max_acceleration_ratio
 
-    def __set_car_max_acceleration_ratio(self, value: float) -> None:
+    def __set_car_max_acceleration_ratio__(self, value: float) -> None:
         self.__car_max_acceleration_ratio = value
 
     @property

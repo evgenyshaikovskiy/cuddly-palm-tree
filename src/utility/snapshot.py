@@ -10,7 +10,7 @@ from abstractions.logger import AbstractLogger
 
 
 class SnapshotService(Observer):
-    def __init__(self) -> None:
+    def __init__(self):
         self.__car: AbstractVehicle = None
 
     def Handle(self, car: AbstractVehicle, logger: AbstractLogger) -> None:

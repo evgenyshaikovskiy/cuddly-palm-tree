@@ -28,7 +28,7 @@ def main():
             asyncio.run(run_car(None))
         elif action == 2:
             restore_service: RestoreService = RestoreService()
-            asyncio.run(run_car(restore_service.restore_car()))
+            asyncio.run(run_car(restore_service.restore_car(logger)))
             print('restore service')
         elif action == 3:
             print('destroy service')
@@ -95,3 +95,5 @@ async def run_car(car: AbstractVehicle):
         elif action == 8:
             car.GetInformationOnCar()
             await asyncio.sleep(0.5)
+
+main()
