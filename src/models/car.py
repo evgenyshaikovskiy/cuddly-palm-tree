@@ -20,108 +20,110 @@ from models.engine import Engine
 class Car(AbstractVehicle, Observable):
     def __init__(self,
                  logger: AbstractLogger,
-                 fillLevel=config.DefaultFillLevel(),
-                 maxAccelerationRation=config.DefaultMaxAccelerationRatio(),
-                 tankSize=config.DefaultTankSize(),
-                 onReserveBorder=config.DefaultOnReserveBorder(),
-                 accelerationRatio=config.DefaultAccelerationRatio(),
-                 minAccelerationRatio=config.DefaultMinAccelerationRatio(),
-                 maxSpeed=config.DefaultMaxSpeed(),
-                 brakingSpeed=config.DefaultBrakingSpeed()):
+                 fill_level=config.default_fill_level(),
+                 max_acceleration_ratio=config.default_max_acceleraton_ratio(),
+                 tank_size=config.default_tank_size(),
+                 on_reserve_border=config.default_on_reserve_border(),
+                 acceleration_ratio=config.default_acceleration_ratio(),
+                 min_acceleration_ratio=config.default_min_acceleration_ratio(),
+                 max_speed=config.default_max_speed(),
+                 braking_speed=config.default_braking_speed()):
 
         self.__logger: AbstractLogger = logger
         self.__observers = []
 
-        self.__fuelTank: AbstractFuelTank = FuelTank(self.__logger,
-                                                     fillLevel,
-                                                     tankSize,
-                                                     onReserveBorder)
+        self.__fuel_tank: AbstractFuelTank = FuelTank(self.__logger,
+                                                     fill_level,
+                                                     tank_size,
+                                                     on_reserve_border)
 
-        self.__fuelTankDisplay: AbstractFuelTankDisplay = FuelTankDisplay(
-            self.__fuelTank,
+        self.__fuel_tank_display: AbstractFuelTankDisplay = FuelTankDisplay(
+            self.__fuel_tank,
             self.__logger)
 
-        self.__engine: AbstractEngine = Engine(self.__logger, self.__fuelTank)
+        self.__engine: AbstractEngine = Engine(self.__logger, self.__fuel_tank)
 
-        self.__drivingProcessor: AbstractDrivingProcessor = DrivingProcessor(
+        self.__driving_processor: AbstractDrivingProcessor = DrivingProcessor(
             self.__engine,
             self.__logger,
-            accelerationRatio,
-            maxAccelerationRation,
-            minAccelerationRatio,
-            maxSpeed,
-            brakingSpeed)
+            acceleration_ratio,
+            max_acceleration_ratio,
+            min_acceleration_ratio,
+            max_speed,
+            braking_speed)
 
-        self.__drivingDisplay: AbstractDrivingDisplay = DrivingDisplay(
-            self.__drivingProcessor,
+        self.__driving_display: AbstractDrivingDisplay = DrivingDisplay(
+            self.__driving_processor,
             self.__logger)
 
     @property
-    def EngineIsRunning(self):
+    def engine_is_running(self):
         self.__logger.log("Checks whether engine is running in car class.")
-        return self.__get_engine__.IsRunning
+        return self.__get_engine__.is_running
 
-    def EngineStart(self) -> None:
+    def engine_start(self) -> None:
         self.__logger.log("Starts an engine in car class.")
-        if not self.__get_engine__.IsRunning and self.__get_fuel_tank__.FillLevel > 0:
-            self.__get_engine__.Start()
+        if not self.__get_engine__.is_running and self.__get_fuel_tank__.fill_level > 0:
+            self.__get_engine__.start()
 
-        self.Notify()
+        self.notify()
 
 
-    def EngineStop(self) -> None:
+    def engine_stop(self) -> None:
         self.__logger.log("Stops an engine in car class.")
-        if self.__get_engine__.IsRunning:
-            self.__get_engine__.Stop()
+        if self.__get_engine__.is_running:
+            self.__get_engine__.stop()
 
-        self.Notify()
+        self.notify()
 
-
-    def RunningIdle(self) -> None:
+    def running_idle(self) -> None:
         self.__logger.log("Running idle in car calss.")
-        self.__get_engine__.Consume(config.DefaultRunningIdleConsumptionRate())
-        self.Notify()
+        self.__get_engine__.consume(config.default_running_idle_consumption_rate())
+        self.notify()
 
-
-    def FreeWheel(self) -> None:
+    def free_wheel(self) -> None:
         self.__logger.log("Free wheel in car class.")
-        self.__get_driving_processor__.ReduceSpeedBy(1)
-        self.Notify()
+        self.__get_driving_processor__.reduce_speed_by(1)
+        self.notify()
 
-    def BrakeBy(self, speed: float) -> None:
+    def brake_by(self, speed: float) -> None:
         self.__logger.log(f"Break by {speed} in car class.")
-        self.__get_driving_processor__.ReduceSpeedBy(speed)
-        self.Notify()
+        self.__get_driving_processor__.reduce_speed_by(speed)
+        self.notify()
 
-    def Accelerate(self, speed: float) -> None:
+    def accelerate(self, speed: float) -> None:
         self.__logger.log(f"Accelerate by {speed} in car class")
-        self.__get_driving_processor__.IncreaseSpeedTo(speed)
-        self.Notify()
+        self.__get_driving_processor__.increase_speed_to(speed)
+        self.notify()
 
-    def Refuel(self, liters: float) -> None:
+    def refuel(self, liters: float) -> None:
         self.__logger.log(f"Refuel by {liters} in car class")
-        self.__get_fuel_tank__.Refuel(liters)
-        self.Notify()
+        self.__get_fuel_tank__.refuel(liters)
+        self.notify()
 
-    def Subscribe(self, observer: Observer) -> None:
+    def subscribe(self, observer: Observer) -> None:
         self.__observers.append(observer)
 
-    def Unsubscribe(self, observer: Observer) -> None:
+    def unsubscribe(self, observer: Observer) -> None:
         self.__observers.remove(observer)
 
-    def Notify(self) -> None:
+    def notify(self) -> None:
         for item in self.__observers:
-            item.Handle(self, self.__logger)
+            item.handle(self, self.__logger)
 
-    def GetInformationOnCar(self) -> None:
-        if self.EngineIsRunning:
+    def get_report_on_car(self) -> None:
+        self.__logger.disable_logging()
+
+        if self.engine_is_running:
             print('For current moment car engine is running')
         else:
             print('For current moment car engine is not running')
 
-        print(f'Actual speed is  {self.__get_driving_display__.ActualSpeed}')
-        print(f'Actual consumption {self.__get_driving_display__.ActualConsumption}')
-        print(f'Actual fill level is {self.__get_fuel_tank_display__.FillLevel}')
+        print(f'Actual speed is  {self.__get_driving_display__.actual_speed}')
+        print(f'Actual consumption {self.__get_driving_display__.actual_consumption}')
+        print(f'Actual fill level is {self.__get_fuel_tank_display__.fill_level}')
+
+        self.__logger.enable_logging()
 
     # private properties for reflection
     @property
@@ -130,16 +132,16 @@ class Car(AbstractVehicle, Observable):
 
     @property
     def __get_fuel_tank__(self) -> AbstractFuelTank:
-        return self.__fuelTank
+        return self.__fuel_tank
 
     @property
     def __get_fuel_tank_display__(self) -> AbstractFuelTankDisplay:
-        return self.__fuelTankDisplay
+        return self.__fuel_tank_display
 
     @property
     def __get_driving_display__(self) -> AbstractDrivingDisplay:
-        return self.__drivingDisplay
+        return self.__driving_display
 
     @property
     def __get_driving_processor__(self) -> AbstractDrivingProcessor:
-        return self.__drivingProcessor
+        return self.__driving_processor

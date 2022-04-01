@@ -6,24 +6,24 @@ from abstractions.fuel_tank import AbstractFuelTank
 class FuelTankDisplay(AbstractFuelTankDisplay):
 
     def __init__(self, fuelTank: AbstractFuelTank, logger: AbstractLogger):
-        self.__fuelTank = fuelTank
+        self.__fuel_tank = fuelTank
         self.__logger = logger
 
     @property
-    def FillLevel(self) -> float:
+    def fill_level(self) -> float:
         self.__logger.log("Access fill level in fuel tank display.")
-        return round(self.__get_fuel_tank__.FillLevel)
+        return round(self.__get_fuel_tank__.fill_level)
 
     @property
-    def IsOnReserve(self) -> bool:
+    def is_on_reserve(self) -> bool:
         self.__logger.log("Check whether car is on reverse in tank display.")
-        return self.__get_fuel_tank__.IsOnReserve
+        return self.__get_fuel_tank__.is_on_reserve
 
     @property
-    def IsFull(self) -> bool:
+    def is_full(self) -> bool:
         self.__logger.log("Check whether fuel tank is full in tank display.")
-        return self.__get_fuel_tank__.IsFull
+        return self.__get_fuel_tank__.is_full
 
     @property
     def __get_fuel_tank__(self) -> AbstractFuelTank:
-        return self.__fuelTank
+        return self.__fuel_tank
