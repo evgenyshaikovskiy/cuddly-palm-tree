@@ -53,54 +53,58 @@ async def run_car(car: AbstractVehicle):
 
     # start tracking new or already created car
     car.subscribe(snapshot_service)
-    while (True):
-        print('''Choose action:
-              1 - Start Engine.
-              2 - Stop Engine.
-              3 - Run Idle.
-              4 - Free Wheel.
-              5 - Brake by certain speed.
-              6 - Accelerate by certain speed.
-              7 - Refuel Car.
-              8 - Get information about car condition.
-              9 - To exit simulation.
-              To cancel programm press Space.
-              ''')
-        action: int = int(input())
 
-        if action == 1:
-            car.engine_start()
-            await asyncio.sleep(0.5)
-        elif action == 2:
-            car.engine_stop()
-            await asyncio.sleep(0.5)
-        elif action == 3:
-            car.running_idle()
-            await asyncio.sleep(0.5)
-        elif action == 4:
-            car.free_wheel()
-            await asyncio.sleep(0.5)
-            print('Input count of km/h to brake by')
-        elif action == 5:
-            speed = float(input())
-            car.brake_by(speed)
-            await asyncio.sleep(0.5)
-        elif action == 6:
-            print('Input count of km/h to accelerate by')
-            speed = float(input())
-            car.accelerate(speed)
-            await asyncio.sleep(0.5)
-        elif action == 7:
-            print('Input amount of liters to refuel')
-            liters = float(input())
-            car.refuel(liters)
-            await asyncio.sleep(0.5)
-        elif action == 8:
-            car.get_report_on_car()
-            await asyncio.sleep(0.5)
-        elif action == 9:
-            print('Stopping simulation...')
-            car.unsubscribe(snapshot_service)
-            break
+    try:
+        while (True):
+            print('''Choose action:
+                  1 - Start Engine.
+                  2 - Stop Engine.
+                  3 - Run Idle.
+                  4 - Free Wheel.
+                  5 - Brake by certain speed.
+                  6 - Accelerate by certain speed.
+                  7 - Refuel Car.
+                  8 - Get information about car condition.
+                  9 - To exit simulation.
+                  To cancel programm press Space.
+                  ''')
+            action: int = int(input())
+
+            if action == 1:
+                car.engine_start()
+                await asyncio.sleep(0.5)
+            elif action == 2:
+                car.engine_stop()
+                await asyncio.sleep(0.5)
+            elif action == 3:
+                car.running_idle()
+                await asyncio.sleep(0.5)
+            elif action == 4:
+                car.free_wheel()
+                await asyncio.sleep(0.5)
+                print('Input count of km/h to brake by')
+            elif action == 5:
+                speed = float(input())
+                car.brake_by(speed)
+                await asyncio.sleep(0.5)
+            elif action == 6:
+                print('Input count of km/h to accelerate by')
+                speed = float(input())
+                car.accelerate(speed)
+                await asyncio.sleep(0.5)
+            elif action == 7:
+                print('Input amount of liters to refuel')
+                liters = float(input())
+                car.refuel(liters)
+                await asyncio.sleep(0.5)
+            elif action == 8:
+                car.get_report_on_car()
+                await asyncio.sleep(0.5)
+            elif action == 9:
+                print('Stopping simulation...')
+                car.unsubscribe(snapshot_service)
+                break
+    except Exception:
+        print('Exception occured.')
 
 main()

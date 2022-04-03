@@ -25,6 +25,7 @@ class FuelTank(AbstractFuelTank):
         if fill_level < 0 or fill_level > tank_size:
             raise FillLevelException(fill_level)
 
+        self.__on_reserve_border = on_reserve_border
         self.__logger = logger
         self.__fill_level = fill_level
         self.__tank_size = tank_size
