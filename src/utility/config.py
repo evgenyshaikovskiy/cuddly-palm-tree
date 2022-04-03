@@ -10,6 +10,10 @@ class config():
         return 60
 
     @staticmethod
+    def min_tank_size():
+        return 20
+
+    @staticmethod
     def default_on_reserve_border():
         return 5
 
@@ -18,12 +22,28 @@ class config():
         return 20
 
     @staticmethod
+    def default_min_max_acceleration_ratio():
+        return 1
+
+    @staticmethod
     def default_min_acceleration_ratio():
         return 5
 
     @staticmethod
     def default_max_speed():
         return 250
+
+    @staticmethod
+    def default_min_speed():
+        return 10
+
+    @staticmethod
+    def max_braking_speed():
+        return 30
+
+    @staticmethod
+    def min_braking_speed():
+        return 5
 
     @staticmethod
     def default_braking_speed():
