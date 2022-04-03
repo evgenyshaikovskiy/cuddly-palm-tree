@@ -16,26 +16,26 @@ class DrivingProcessor(AbstractDrivingProcessor):
     def __init__(self,
                  engine: AbstractEngine,
                  logger: AbstractLogger,
-                 acceleration_ratio=config.default_acceleration_ratio(),
-                 max_acceleration_ratio=config.default_max_acceleraton_ratio(),
-                 min_acceleration_ratio=config.default_min_acceleration_ratio(),
-                 max_speed=config.default_max_speed(),
-                 braking_speed=config.default_braking_speed(),
+                 acceleration_ratio=config.get('acceleration_ratio'),
+                 max_acceleration_ratio=config.get('max_acceleraton_ratio'),
+                 min_acceleration_ratio=config.get('min_acceleration_ratio'),
+                 max_speed=config.get('max_speed'),
+                 braking_speed=config.get('braking_speed'),
                  ):
 
-        if max_speed < config.default_min_speed() or max_speed > config.default_max_speed():
+        if max_speed < config.get('min_speed') or max_speed > config.get('max_speed'):
             raise MaxSpeedException(max_speed)
 
-        if braking_speed < config.min_braking_speed() or braking_speed > config.max_braking_speed():
+        if braking_speed < config.get('min_braking_speed') or braking_speed > config.get('max_braking_speed'):
             raise BrakingSpeedException(braking_speed)
 
-        if max_acceleration_ratio < config.default_min_max_acceleration_ratio() or max_acceleration_ratio > config.default_max_acceleraton_ratio():
+        if max_acceleration_ratio < config.get('min_max_acceleration_ratio') or max_acceleration_ratio > config.get('max_acceleraton_ratio'):
             raise MaxAccelerationRatioException(max_acceleration_ratio)
 
-        if min_acceleration_ratio < 0 or min_acceleration_ratio > config.default_min_acceleration_ratio():
+        if min_acceleration_ratio < 0 or min_acceleration_ratio > config.get('min_acceleration_ratio'):
             raise MinAccelerationRatioException(min_acceleration_ratio)
 
-        if acceleration_ratio < 0 or acceleration_ratio > config.default_acceleration_ratio():
+        if acceleration_ratio < 0 or acceleration_ratio > config.get('acceleration_ratio'):
             raise AccelerationRatioException(acceleration_ratio)
 
         if acceleration_ratio < min_acceleration_ratio:
@@ -76,24 +76,24 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
         if current_speed > 0:
             if current_speed < self.__get_car_maxspeed__ * 0.25:
-                consumption = config.default_running_quater_consumption_rate()
+                consumption = config.get('running_quater_consumption_rate')
             elif current_speed < self.__get_car_maxspeed__ * 0.5:
-                consumption = config.default_running_half_consumption_rate()
+                consumption = config.get('running_half_consumption_rate')
             elif current_speed < self.__get_car_maxspeed__ * 0.75:
-                consumption = config.default_running_half_consumption_rate()
+                consumption = config.get('running_upper_half_consumption_rate')
             elif current_speed < self.__get_car_maxspeed__:
-                consumption = config.default_running_upper_half_consumption_rate()
+                consumption = config.get('running_before_max_consumption_rate')
             elif current_speed == config.default_max_speed():
-                consumption = config.default_running_max_speed_consumption_rate()
+                consumption = config.get('running_max_speed_consumption_rate')
         else:
             consumption = 0
 
         if is_accelerating:
-            consumption *= config.default_acceleration_coefficient()
+            consumption *= config.get('acceleration_coefficient')
         elif is_braking:
-            consumption *= config.default_braking_coefficient()
+            consumption *= config.get('braking_coefficient')
 
-        self.__last_consumption = consumption * config.default_car_coefficient()
+        self.__last_consumption = consumption * config.get('car_coefficient')
         return self.__last_consumption
 
     def increase_speed_to(self, speed: float) -> None:

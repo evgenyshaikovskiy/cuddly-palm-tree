@@ -20,14 +20,14 @@ from models.engine import Engine
 class Car(AbstractVehicle, Observable):
     def __init__(self,
                  logger: AbstractLogger,
-                 fill_level=config.default_fill_level(),
-                 max_acceleration_ratio=config.default_max_acceleraton_ratio(),
-                 tank_size=config.default_tank_size(),
-                 on_reserve_border=config.default_on_reserve_border(),
-                 acceleration_ratio=config.default_acceleration_ratio(),
-                 min_acceleration_ratio=config.default_min_acceleration_ratio(),
-                 max_speed=config.default_max_speed(),
-                 braking_speed=config.default_braking_speed()):
+                 fill_level=config.get('fill_level'),
+                 max_acceleration_ratio=config.get('max_acceleraton_ratio'),
+                 tank_size=config.get('tank_size'),
+                 on_reserve_border=config.get('on_reserve_border'),
+                 acceleration_ratio=config.get('acceleration_ratio'),
+                 min_acceleration_ratio=config.get('min_acceleration_ratio'),
+                 max_speed=config.get('max_speed'),
+                 braking_speed=config.get('braking_speed')):
 
         self.__logger: AbstractLogger = logger
         self.__observers = []
@@ -74,7 +74,7 @@ class Car(AbstractVehicle, Observable):
 
     def running_idle(self) -> None:
         self.__logger.log("Running idle in car calss.")
-        self.__get_engine__.consume(config.default_running_idle_consumption_rate())
+        self.__get_engine__.consume(config.get('running_idle_consumption_rate'))
         self.notify()
 
     def free_wheel(self) -> None:

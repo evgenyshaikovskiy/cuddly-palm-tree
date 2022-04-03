@@ -12,14 +12,14 @@ class FuelTank(AbstractFuelTank):
 
     def __init__(self,
                  logger: AbstractLogger,
-                 fill_level=config.default_fill_level(),
-                 tank_size=config.default_tank_size(),
-                 on_reserve_border=config.default_fill_level()):
+                 fill_level=config.get('fill_level'),
+                 tank_size=config.get('tank_size'),
+                 on_reserve_border=config.get('on_reserve_border')):
 
-        if on_reserve_border < 0 or on_reserve_border > config.default_on_reserve_border():
+        if on_reserve_border < 0 or on_reserve_border > config.get('on_reserve_border'):
             raise OnReserveBorderException(on_reserve_border)
 
-        if tank_size < config.min_tank_size() or tank_size > config.default_tank_size():
+        if tank_size < config.get('min_tank_size') or tank_size > config.get('tank_size'):
             raise TankSizeException(tank_size)
 
         if fill_level < 0 or fill_level > tank_size:
