@@ -32,10 +32,7 @@ class Car(AbstractVehicle, Observable):
         self.__logger: AbstractLogger = logger
         self.__observers = []
 
-        self.__fuel_tank: AbstractFuelTank = FuelTank(self.__logger,
-                                                     fill_level,
-                                                     tank_size,
-                                                     on_reserve_border)
+        self.__fuel_tank: AbstractFuelTank = FuelTank(self.__logger, fill_level, tank_size, on_reserve_border)
 
         self.__fuel_tank_display: AbstractFuelTankDisplay = FuelTankDisplay(
             self.__fuel_tank,
@@ -67,7 +64,6 @@ class Car(AbstractVehicle, Observable):
             self.__get_engine__.start()
 
         self.notify()
-
 
     def engine_stop(self) -> None:
         self.__logger.log("Stops an engine in car class.")

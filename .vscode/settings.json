@@ -2,7 +2,7 @@
     "python.linting.pycodestyleEnabled": true,
     "python.linting.lintOnSave": true,
     "python.linting.enabled": true,
-    "python.linting.pycodestyleCategorySeverity.E": "Hint",
+    "python.linting.pycodestyleCategorySeverity.E": "Information",
     "python.linting.pydocstyleEnabled": false,
     "python.linting.pylintEnabled": false
 }

@@ -16,9 +16,7 @@ class AbstractDrivingProcessor(ABC):
         """Gets last consumption in liters."""
 
     @abstractmethod
-    def calculate_consumption_rate(self,
-                                 isAccelerating: bool = False,
-                                 isBraking: bool = False):
+    def calculate_consumption_rate(self, isAccelerating: bool = False, isBraking: bool = False):
         """Gets comsumption level based on coefficient and car actual speed"""
 
     @abstractmethod

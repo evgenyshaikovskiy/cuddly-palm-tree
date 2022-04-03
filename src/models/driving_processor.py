@@ -1,3 +1,10 @@
+from ast import Raise
+from sys import maxsize
+from exceptions.acceleration_ratio_exception import AccelerationRatioException
+from exceptions.braking_speed_exception import BrakingSpeedException
+from exceptions.max_acceleration_ratio_exception import MaxAccelerationRatioException
+from exceptions.max_speed_exception import MaxSpeedException
+from exceptions.min_acceleration_ratio_exception import MinAccelerationRatioException
 from utility.config import config
 
 from abstractions.logger import AbstractLogger
@@ -16,18 +23,34 @@ class DrivingProcessor(AbstractDrivingProcessor):
                  braking_speed=config.default_braking_speed(),
                  ):
 
+        if max_speed < config.default_min_speed() or max_speed > config.default_max_speed():
+            raise MaxSpeedException(max_speed)
+
+        if braking_speed < config.min_braking_speed() or braking_speed > config.max_braking_speed():
+            raise BrakingSpeedException(braking_speed)
+
+        if max_acceleration_ratio < config.default_min_max_acceleration_ratio() or max_acceleration_ratio > config.default_max_acceleraton_ratio():
+            raise MaxAccelerationRatioException(max_acceleration_ratio)
+
+        if min_acceleration_ratio < 0 or min_acceleration_ratio > config.default_min_acceleration_ratio():
+            raise MinAccelerationRatioException(min_acceleration_ratio)
+
+        if acceleration_ratio < 0 or acceleration_ratio > config.default_acceleration_ratio():
+            raise AccelerationRatioException(acceleration_ratio)
+
+        if acceleration_ratio < min_acceleration_ratio:
+            acceleration_ratio = min_acceleration_ratio
+
+        # optional?
+        if acceleration_ratio > max_acceleration_ratio:
+            acceleration_ratio = max_acceleration_ratio
+
         self.__max_speed: float = max_speed
         self.__braking_speed: float = braking_speed
         self.__actual_speed: float = 0
 
         # consumption on init is 0
         self.__last_consumption: float = 0
-
-        if acceleration_ratio < min_acceleration_ratio:
-            acceleration_ratio = min_acceleration_ratio
-
-        if acceleration_ratio > max_acceleration_ratio:
-            acceleration_ratio = max_acceleration_ratio
 
         self.__engine: AbstractEngine = engine
         self.__acceleration_ratio: float = acceleration_ratio
@@ -45,9 +68,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         self.__logger.log("Access last consumption in driving proccessor.")
         return self.__last_consumption
 
-    def calculate_consumption_rate(self,
-                                 is_accelerating: bool = False,
-                                 is_braking: bool = False) -> float:
+    def calculate_consumption_rate(self, is_accelerating: bool = False, is_braking: bool = False) -> float:
         current_speed = self.actual_speed
         consumption: float = 0
 
@@ -85,8 +106,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
             self.__actual_speed -= 1
 
         if self.__actual_speed < speed:
-            self.__actual_speed = min(speed, self.__actual_speed +
-                                     self.__get_car_acceleration_ratio__)
+            self.__actual_speed = min(speed, self.__actual_speed + self.__get_car_acceleration_ratio__)
 
         if self.__actual_speed > self.__get_car_maxspeed__:
             self.__actual_speed = self.__get_car_maxspeed__
