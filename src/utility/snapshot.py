@@ -1,4 +1,6 @@
 from __future__ import with_statement
+import json
+
 from abstractions.driving_display import AbstractDrivingDisplay
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.engine import AbstractEngine
@@ -26,18 +28,20 @@ class SnapshotService(Observer):
         self.__driving_processor: AbstractDrivingProcessor = self.__car.__getattribute__('__get_driving_processor__')
         self.__fuel_tank: AbstractFuelTank = self.__car.__getattribute__('__get_fuel_tank__')
 
-        with open('car_information.txt', 'w', encoding='UTF-8') as file:
-            # first write constructor parameters
-            file.write(str(self.__fuel_tank_display.fill_level) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_max_acceleration_ratio__')) + '\n')
-            file.write(str(self.__fuel_tank.__getattribute__('__get_tank_size__')) + '\n')
-            file.write(str(self.__fuel_tank.__getattribute__('__get_on_reserve_border__')) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_acceleration_ratio__')) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_min_acceleration_ratio__')) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_maxspeed__')) + '\n')
-            file.write(str(self.__driving_processor.__getattribute__('__get_car_braking_speed__')) + '\n')
+        dictionary = {
+            "fill_level": self.__fuel_tank_display.fill_level,
+            "max_acceleration_ratio": self.__driving_processor.__getattribute__('__get_car_max_acceleration_ratio__'),
+            "tank_size": self.__fuel_tank.__getattribute__('__get_tank_size__'),
+            "on_reserve_border": self.__fuel_tank.__getattribute__('__get_on_reserve_border__'),
+            "acceleration_ratio": self.__driving_processor.__getattribute__('__get_car_acceleration_ratio__'),
+            "min_acceleration_ratio": self.__driving_processor.__getattribute__('__get_car_min_acceleration_ratio__'),
+            "max_speed": self.__driving_processor.__getattribute__('__get_car_maxspeed__'),
+            "braking_speed": self.__driving_processor.__getattribute__('__get_car_braking_speed__'),
+            "actual_speed": self.__driving_display.actual_speed,
+            "actual_consumption": self.__driving_display.actual_consumption,
+            "engine_is_running": self.__car.engine_is_running,
+        }
 
-            # write changing parameters
-            file.write(str(self.__driving_display.actual_speed) + '\n')
-            file.write(str(self.__driving_display.actual_consumption) + '\n')
-            file.write(str(self.__car.engine_is_running))
+        data = json.dumps(dictionary, indent=4)
+        with open('car_configuration.json', 'w', encoding='UTF-8') as json_file:
+            json_file.write(data)

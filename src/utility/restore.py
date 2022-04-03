@@ -1,5 +1,7 @@
 from abstractions.logger import AbstractLogger
 from models.car import Car
+
+import json
 import string
 
 
@@ -45,31 +47,20 @@ class RestoreService():
         return car
 
     def __read_file__(self) -> None:
-        with open('car_information.txt', 'r') as file:
-            self.__set_fill_level__(float(file.readline()))
-            self.__set_car_max_acceleration_ratio__(float(file.readline()))
-            self.__set_tank_size__(float(file.readline()))
-            self.__set_on_reserve_border__(float(file.readline()))
-            self.__set_car_acceleration_ratio__(float(file.readline()))
-            self.__set_car_min_acceleration_ratio__(float(file.readline()))
-            self.__set_car_max_speed__(float(file.readline()))
-            self.__set_car_braking_speed__(float(file.readline()))
+        with open('car_configuration.json', 'r') as json_file:
+            data = json.load(json_file)
+            self.__set_fill_level__(float(data['fill_level']))
+            self.__set_car_max_acceleration_ratio__(float(data['max_acceleration_ratio']))
+            self.__set_tank_size__(float(data['tank_size']))
+            self.__set_on_reserve_border__(float(data['on_reserve_border']))
+            self.__set_car_acceleration_ratio__(float(data['acceleration_ratio']))
+            self.__set_car_min_acceleration_ratio__(float(data['min_acceleration_ratio']))
+            self.__set_car_max_speed__(float(data['max_speed']))
+            self.__set_car_braking_speed__(float(data['braking_speed']))
 
-            self.__set_car_actual_speed__(float(file.readline()))
-            self.__set_car_actual_consumption__(float(file.readline()))
-
-            # refactor this boolean
-            is_engine_running: bool = None
-            parsed_boolean: string = str(file.readline())
-            if parsed_boolean == 'True':
-                is_engine_running = True
-            elif parsed_boolean == 'False':
-                is_engine_running = False
-            else:
-                # exception
-                print('Corrupted input')
-
-            self.__set_is_engine_running__(is_engine_running)
+            self.__set_car_actual_speed__(float(data['actual_speed']))
+            self.__set_car_actual_consumption__(float(data['actual_consumption']))
+            self.__set_is_engine_running__(bool(data['engine_is_running']))
 
     @property
     def __get_fill_level__(self) -> float:
