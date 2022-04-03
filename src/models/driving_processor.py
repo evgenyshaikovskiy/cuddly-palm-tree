@@ -1,10 +1,8 @@
 from utility.config import config
 
 from abstractions.logger import AbstractLogger
-
 from abstractions.driving_processor import AbstractDrivingProcessor
 from abstractions.engine import AbstractEngine
-from models.engine import Engine
 
 
 class DrivingProcessor(AbstractDrivingProcessor):
@@ -18,9 +16,6 @@ class DrivingProcessor(AbstractDrivingProcessor):
                  braking_speed=config.default_braking_speed(),
                  ):
 
-        # set initial speed to zero
-        # TODO: introduce exception handling for min and max accelerationRatio
-        # and max speed
         self.__max_speed: float = max_speed
         self.__braking_speed: float = braking_speed
         self.__actual_speed: float = 0
