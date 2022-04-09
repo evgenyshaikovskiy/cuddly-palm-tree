@@ -105,9 +105,9 @@ class DrivingProcessor(AbstractDrivingProcessor):
         if speed < self.__actual_speed:
             self.__actual_speed -= 1
 
-        if self.__actual_speed < speed:
+        while self.__actual_speed < speed:
             self.__actual_speed = min(speed, self.__actual_speed + self.__get_car_acceleration_ratio__)
-
+            
         if self.__actual_speed > self.__get_car_maxspeed__:
             self.__actual_speed = self.__get_car_maxspeed__
 
