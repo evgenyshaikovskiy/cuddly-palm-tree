@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-# class that represents 'proccesor'
+# class that represents 'processor'
 # of vehicle (could be represented as multiple electronic car tools)
 class AbstractDrivingProcessor(ABC):
 
@@ -21,7 +21,7 @@ class AbstractDrivingProcessor(ABC):
 
     @abstractmethod
     def increase_speed_to(self, speed: float):
-        """Increase speed until certain 'speed' (in kilometrs per hour)"""
+        """Increase speed until certain 'speed' (in kilometers per hour)"""
 
     @abstractmethod
     def reduce_speed_by(self, reduceBy: float):

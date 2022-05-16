@@ -18,21 +18,27 @@ from models.engine import Engine
 
 
 class Car(AbstractVehicle, Observable):
-    def __init__(self,
-                 logger: AbstractLogger,
-                 fill_level=config.get('fill_level'),
-                 max_acceleration_ratio=config.get('max_acceleraton_ratio'),
-                 tank_size=config.get('tank_size'),
-                 on_reserve_border=config.get('on_reserve_border'),
-                 acceleration_ratio=config.get('acceleration_ratio'),
-                 min_acceleration_ratio=config.get('min_acceleration_ratio'),
-                 max_speed=config.get('max_speed'),
-                 braking_speed=config.get('braking_speed')):
-
+    def __init__(
+        self,
+        logger: AbstractLogger,
+        fill_level=config.get('fill_level'),
+        max_acceleration_ratio=config.get('max_acceleraton_ratio'),
+        tank_size=config.get('tank_size'),
+        on_reserve_border=config.get('on_reserve_border'),
+        acceleration_ratio=config.get('acceleration_ratio'),
+        min_acceleration_ratio=config.get('min_acceleration_ratio'),
+        max_speed=config.get('max_speed'),
+        braking_speed=config.get('braking_speed')
+    ):
         self.__logger: AbstractLogger = logger
         self.__observers = []
 
-        self.__fuel_tank: AbstractFuelTank = FuelTank(self.__logger, fill_level, tank_size, on_reserve_border)
+        self.__fuel_tank: AbstractFuelTank = FuelTank(
+            self.__logger,
+            fill_level,
+            tank_size,
+            on_reserve_border
+        )
 
         self.__fuel_tank_display: AbstractFuelTankDisplay = FuelTankDisplay(
             self.__fuel_tank,
@@ -47,11 +53,13 @@ class Car(AbstractVehicle, Observable):
             max_acceleration_ratio,
             min_acceleration_ratio,
             max_speed,
-            braking_speed)
+            braking_speed
+        )
 
         self.__driving_display: AbstractDrivingDisplay = DrivingDisplay(
             self.__driving_processor,
-            self.__logger)
+            self.__logger
+        )
 
     @property
     def engine_is_running(self):
