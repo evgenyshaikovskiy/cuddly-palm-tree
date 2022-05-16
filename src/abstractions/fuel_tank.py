@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
 
-# class that describes fuel tank behaviour
 class AbstractFuelTank(ABC):
     @property
     @abstractmethod
