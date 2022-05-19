@@ -6,7 +6,7 @@ import string
 
 class Logger(AbstractLogger):
     def __init__(self):
-        self.__isLogging = True
+        self.__is_logging = True
 
     @staticmethod
     def setup():
@@ -15,12 +15,12 @@ class Logger(AbstractLogger):
                        filemode='w')
 
     def log(self, message: string):
-        if self.__isLogging:
+        if self.__is_logging:
             print(message)
             lg.info(message)
 
     def disable_logging(self):
-        self.__isLogging = False
+        self.__is_logging = False
 
     def enable_logging(self):
-        self.__isLogging = True
+        self.__is_logging = True
