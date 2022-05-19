@@ -3,7 +3,7 @@
     "tank_size": 60,
     "min_tank_size": 20,
     "on_reserve_border": 5,
-    "max_acceleraton_ratio": 20,
+    "max_acceleration_ratio": 20,
     "min_max_acceleration_ratio": 1,
     "min_acceleration_ratio": 5,
     "max_speed": 250,
