@@ -3,6 +3,7 @@ from models.car import Car
 
 import json
 import string
+from os.path import exists
 
 
 class RestoreService():
@@ -23,28 +24,33 @@ class RestoreService():
 
     def restore_car(self, logger: AbstractLogger) -> Car:
         # read file
-        self.__read_file__()
-        logger.disable_logging()
-        car: Car = Car(logger,
-                       self.__get_fill_level__,
-                       self.__get_car_max_acceleration_ratio__,
-                       self.__get_tank_size__,
-                       self.__get_on_reserve_border__,
-                       self.__get_car_acceleration_ratio__,
-                       self.__get_car_min_acceleration_ratio__,
-                       self.__get_car_max_speed__,
-                       self.__get_car_braking_speed__)
+        if exists('car_configuration.json'):
+            self.__read_file__()
+            logger.disable_logging()
+            car: Car = Car(
+                logger,
+                self.__get_fill_level__,
+                self.__get_car_max_acceleration_ratio__,
+                self.__get_tank_size__,
+                self.__get_on_reserve_border__,
+                self.__get_car_acceleration_ratio__,
+                self.__get_car_min_acceleration_ratio__,
+                self.__get_car_max_speed__,
+                self.__get_car_braking_speed__
+            )
 
-        # restore car to it's initial condition
-        if self.__get_is_engine_running__:
-            car.engine_start()
+            # restore car to it's initial condition
+            if self.__get_is_engine_running__:
+                car.engine_start()
 
-        car.accelerate(self.__get_car_actual_speed__)
+            car.accelerate(self.__get_car_actual_speed__)
 
-        # refuel difference
-        car.refuel(self.__get_fill_level__ - car.__get_fuel_tank_display__.fill_level)
-        logger.enable_logging()
-        return car
+            # refuel difference
+            car.refuel(self.__get_fill_level__ - car.__get_fuel_tank_display__.fill_level)
+            logger.enable_logging()
+            return car
+        else:
+            return None
 
     def __read_file__(self) -> None:
         with open('car_configuration.json', 'r') as json_file:

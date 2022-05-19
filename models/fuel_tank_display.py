@@ -12,7 +12,7 @@ class FuelTankDisplay(AbstractFuelTankDisplay):
     @property
     def fill_level(self) -> float:
         self.__logger.log("Access fill level in fuel tank display.")
-        return round(self.__get_fuel_tank__.fill_level)
+        return self.__get_fuel_tank__.fill_level
 
     @property
     def is_on_reserve(self) -> bool:

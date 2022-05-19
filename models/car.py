@@ -22,7 +22,7 @@ class Car(AbstractVehicle, Observable):
         self,
         logger: AbstractLogger,
         fill_level=config.get('fill_level'),
-        max_acceleration_ratio=config.get('max_acceleraton_ratio'),
+        max_acceleration_ratio=config.get('max_acceleration_ratio'),
         tank_size=config.get('tank_size'),
         on_reserve_border=config.get('on_reserve_border'),
         acceleration_ratio=config.get('acceleration_ratio'),
@@ -81,7 +81,7 @@ class Car(AbstractVehicle, Observable):
         self.notify()
 
     def running_idle(self) -> None:
-        self.__logger.log("Running idle in car calss.")
+        self.__logger.log("Running idle in car class.")
         self.__get_engine__.consume(config.get('running_idle_consumption_rate'))
         self.notify()
 

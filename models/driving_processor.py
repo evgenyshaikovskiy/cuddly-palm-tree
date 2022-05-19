@@ -17,7 +17,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
                  engine: AbstractEngine,
                  logger: AbstractLogger,
                  acceleration_ratio=config.get('acceleration_ratio'),
-                 max_acceleration_ratio=config.get('max_acceleraton_ratio'),
+                 max_acceleration_ratio=config.get('max_acceleration_ratio'),
                  min_acceleration_ratio=config.get('min_acceleration_ratio'),
                  max_speed=config.get('max_speed'),
                  braking_speed=config.get('braking_speed'),
@@ -29,7 +29,7 @@ class DrivingProcessor(AbstractDrivingProcessor):
         if braking_speed < config.get('min_braking_speed') or braking_speed > config.get('max_braking_speed'):
             raise BrakingSpeedException(braking_speed)
 
-        if max_acceleration_ratio < config.get('min_max_acceleration_ratio') or max_acceleration_ratio > config.get('max_acceleraton_ratio'):
+        if max_acceleration_ratio < config.get('min_max_acceleration_ratio') or max_acceleration_ratio > config.get('max_acceleration_ratio'):
             raise MaxAccelerationRatioException(max_acceleration_ratio)
 
         if min_acceleration_ratio < 0 or min_acceleration_ratio > config.get('min_acceleration_ratio'):
@@ -65,14 +65,18 @@ class DrivingProcessor(AbstractDrivingProcessor):
 
     @property
     def last_consumption(self) -> float:
-        self.__logger.log("Access last consumption in driving proccessor.")
+        self.__logger.log("Access last consumption in driving processor.")
         return self.__last_consumption
 
-    def calculate_consumption_rate(self, is_accelerating: bool = False, is_braking: bool = False) -> float:
+    def calculate_consumption_rate(
+        self,
+        is_accelerating: bool = False,
+        is_braking: bool = False
+    ) -> float:
         current_speed = self.actual_speed
         consumption: float = 0
 
-        self.__logger.log("Calculating consumption rate in driving proccesor.")
+        self.__logger.log("Calculating consumption rate in driving processor.")
 
         if current_speed > 0:
             if current_speed < self.__get_car_maxspeed__ * 0.25:
@@ -97,33 +101,37 @@ class DrivingProcessor(AbstractDrivingProcessor):
         return self.__last_consumption
 
     def increase_speed_to(self, speed: float) -> None:
-        self.__logger.log(f"Increasing speed by {speed} in driving proccesor.")
+        self.__logger.log(f"Increasing speed by {speed} in driving processor.")
         if not self.__get_car_engine__.is_running:
             return
 
-        # exception???
         if speed < self.__actual_speed:
             self.__actual_speed -= 1
 
         while self.__actual_speed < speed:
-            self.__actual_speed = min(speed, self.__actual_speed + self.__get_car_acceleration_ratio__)
+            self.__actual_speed = min(
+                speed,
+                self.__actual_speed + self.__get_car_acceleration_ratio__
+            )
 
         if self.__actual_speed > self.__get_car_maxspeed__:
             self.__actual_speed = self.__get_car_maxspeed__
 
         self.__get_car_engine__.consume(self.calculate_consumption_rate(True))
 
-    def reduce_speed_by(self, reduceBy: float) -> None:
-        self.__logger.log(f"Reducing speed by {reduceBy} km/h in driving pro.")
+    def reduce_speed_by(self, reduce_by: float) -> None:
+        self.__logger.log(f"Reducing speed by {reduce_by} km/h in driving pro.")
         if not self.__get_car_engine__.is_running:
             return
 
-        self.__actual_speed -= min(reduceBy, self.__get_car_braking_speed__)
+        self.__actual_speed -= min(reduce_by, self.__get_car_braking_speed__)
 
         if self.__actual_speed < 0:
             self.__actual_speed = 0
 
-        self.__get_car_engine__.consume(self.calculate_consumption_rate(False, True))
+        self.__get_car_engine__.consume(
+            self.calculate_consumption_rate(False, True),
+        )
 
     @property
     def __get_car_engine__(self) -> AbstractEngine:

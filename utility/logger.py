@@ -5,8 +5,10 @@ import string
 
 
 class Logger(AbstractLogger):
-    def __init__(self):
+    def __init__(self, disable_console, disable_file):
         self.__is_logging = True
+        self.__disable_console = disable_console
+        self.__disable_file = disable_file
 
     @staticmethod
     def setup():
@@ -16,8 +18,11 @@ class Logger(AbstractLogger):
 
     def log(self, message: string):
         if self.__is_logging:
-            print(message)
-            lg.info(message)
+            if not self.__disable_file:
+                lg.info(message)
+
+            if not self.__disable_console:
+                print(message)
 
     def disable_logging(self):
         self.__is_logging = False

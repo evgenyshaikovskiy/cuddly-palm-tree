@@ -1,6 +1,7 @@
+import click
 import asyncio
+
 from abstractions.vehicle import AbstractVehicle
-from utility.file_service import File_Service
 from utility.logger import Logger
 from models.car import Car
 from utility.restore import RestoreService
@@ -8,44 +9,38 @@ from utility.snapshot import SnapshotService
 
 
 Logger.setup()
-
-# initialize services and loggers
 snapshot_service: SnapshotService = SnapshotService()
 restore_service: RestoreService = RestoreService()
-file_service: File_Service = File_Service()
-
-logger = Logger()
 
 
-def main():
-    # optional: add view on old session car params
-    while(True):
-        print('''Choose action:
-              1 - Run new car.
-              2 - Restore car from old session.
-              3 - Destroy old session records.
-              4 - Enable logging.
-              5 - Disable logging.
-              6 - Exit application.
-              ''')
+# setup CLI
+@click.command()
+@click.option(
+    '--use-save',
+    default=False,
+    help="Set this parameter as 'True' to upload previous session, otherwise 'False'."
+)
+@click.option(
+    '--disable-console',
+    default=False,
+    help="Set parameter as 'True' to disable console logging, otherwise 'False'."
+)
+@click.option(
+    '--disable-file',
+    default=False,
+    help="Set this parameter as 'True' to disable file logging, otherwise 'False'."
+)
+def main(use_save, disable_console, disable_file):
+    # setup logger parameters
+    logger = Logger(disable_console, disable_file)
 
-        action: int = int(input())
-        if action == 1:
-            asyncio.run(run_car(None))
-        elif action == 2:
-            asyncio.run(run_car(restore_service.restore_car(logger)))
-        elif action == 3:
-            file_service.delete_car_saves()
-        elif action == 4:
-            logger.enable_logging()
-        elif action == 5:
-            logger.disable_logging()
-        elif action == 6:
-            print('Closing application...')
-            break
+    if use_save:
+        asyncio.run(run_car(restore_service.restore_car(logger), logger))
+    else:
+        asyncio.run(run_car(None, logger))
 
 
-async def run_car(car: AbstractVehicle):
+async def run_car(car: AbstractVehicle, logger):
     if car is None:
         car = Car(logger)
     else:
@@ -66,7 +61,6 @@ async def run_car(car: AbstractVehicle):
                   7 - Refuel Car.
                   8 - Get information about car condition.
                   9 - To exit simulation.
-                  To cancel programm press Space.
                   ''')
             action: int = int(input())
 
@@ -105,6 +99,8 @@ async def run_car(car: AbstractVehicle):
                 car.unsubscribe(snapshot_service)
                 break
     except Exception:
-        print('Exception occured.')
+        print('Exception occurred.')
 
-main()
+
+if __name__ == '__main__':
+    main()

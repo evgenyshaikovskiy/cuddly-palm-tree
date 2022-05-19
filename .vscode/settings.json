@@ -4,5 +4,9 @@
     "python.linting.enabled": true,
     "python.linting.pycodestyleCategorySeverity.E": "Information",
     "python.linting.pydocstyleEnabled": false,
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintEnabled": false,
+    "cSpell.words": [
+        "maxspeed",
+        "quater"
+    ]
 }
