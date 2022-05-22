@@ -1,5 +1,5 @@
 import click
-import asyncio
+from click_shell import shell
 
 from abstractions.vehicle import AbstractVehicle
 from utility.logger import Logger
@@ -8,13 +8,6 @@ from utility.restore import RestoreService
 from utility.snapshot import SnapshotService
 
 
-Logger.setup()
-snapshot_service: SnapshotService = SnapshotService()
-restore_service: RestoreService = RestoreService()
-
-
-# setup CLI
-@click.command()
 @click.option(
     '--use-save',
     default=False,
@@ -30,76 +23,86 @@ restore_service: RestoreService = RestoreService()
     default=False,
     help="Set this parameter as 'True' to disable file logging, otherwise 'False'."
 )
+@shell(prompt='> ', intro='Launching cli application...')
 def main(use_save, disable_console, disable_file):
-    # setup logger parameters
+    Logger.setup()
+    global restore_service
+    global snapshot_service
+    global car
+    restore_service = RestoreService()
+    snapshot_service = SnapshotService()
+    car = None
+
     logger = Logger(disable_console, disable_file)
 
     if use_save:
-        asyncio.run(run_car(restore_service.restore_car(logger), logger))
-    else:
-        asyncio.run(run_car(None, logger))
-
-
-async def run_car(car: AbstractVehicle, logger):
-    if car is None:
-        car = Car(logger)
-    else:
         car = restore_service.restore_car(logger)
 
-    # start tracking new or already created car
+    if car is None:
+        car = Car(logger)
+
     car.subscribe(snapshot_service)
 
-    try:
-        while (True):
-            print('''Choose action:
-                  1 - Start Engine.
-                  2 - Stop Engine.
-                  3 - Run Idle.
-                  4 - Free Wheel.
-                  5 - Brake by certain speed.
-                  6 - Accelerate by certain speed.
-                  7 - Refuel Car.
-                  8 - Get information about car condition.
-                  9 - To exit simulation.
-                  ''')
-            action: int = int(input())
 
-            if action == 1:
-                car.engine_start()
-                await asyncio.sleep(0.5)
-            elif action == 2:
-                car.engine_stop()
-                await asyncio.sleep(0.5)
-            elif action == 3:
-                car.running_idle()
-                await asyncio.sleep(0.5)
-            elif action == 4:
-                car.free_wheel()
-                await asyncio.sleep(0.5)
-                print('Input count of km/h to brake by')
-            elif action == 5:
-                speed = float(input())
-                car.brake_by(speed)
-                await asyncio.sleep(0.5)
-            elif action == 6:
-                print('Input count of km/h to accelerate by')
-                speed = float(input())
-                car.accelerate(speed)
-                await asyncio.sleep(0.5)
-            elif action == 7:
-                print('Input amount of liters to refuel')
-                liters = float(input())
-                car.refuel(liters)
-                await asyncio.sleep(0.5)
-            elif action == 8:
-                car.get_report_on_car()
-                await asyncio.sleep(0.5)
-            elif action == 9:
-                print('Stopping simulation...')
-                car.unsubscribe(snapshot_service)
-                break
-    except Exception:
-        print('Exception occurred.')
+@main.command(help='Starts car engine.', name='start-engine')
+def start_engine():
+    car.engine_start()
+
+
+@main.command(help='Stops car engine.', name='stop-engine')
+def stop_engine():
+    car.engine_stop()
+
+
+@main.command(help='Runs car in free wheel mode.', name='free-wheel')
+def free_wheel():
+    car.free_wheel()
+
+
+@main.command(help='Runs car in idle mode.', name='run-idle')
+def run_idle():
+    car.running_idle()
+
+
+@main.command(help='Prints available information on car.', name='info')
+def info():
+    car.get_report_on_car()
+
+
+@main.command(help='Refuels car by given amount of liters', name='refuel')
+@click.argument('liters')
+def refuel(liters):
+    try:
+        liters = float(liters)
+    except ValueError:
+        print('Error! Given amount of liters is not correct.')
+        return
+
+    car.refuel(liters)
+
+
+@main.command(help='Accelerate car by given amount of km/h', name='accelerate')
+@click.argument('speed')
+def accelerate(speed):
+    try:
+        speed = int(speed)
+    except ValueError:
+        print('Error! Given speed accelerate to is not correct.')
+        return
+
+    car.accelerate(speed)
+
+
+@main.command(help='Brake car by given amount of km/h', name='brake')
+@click.argument('speed')
+def brake(speed):
+    try:
+        speed = int(speed)
+    except ValueError:
+        print('Error! Given speed to brake by is not correct.')
+        return
+
+    car.brake_by(speed)
 
 
 if __name__ == '__main__':
