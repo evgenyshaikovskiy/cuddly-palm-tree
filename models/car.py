@@ -101,9 +101,10 @@ class Car(AbstractVehicle, Observable):
         self.notify()
 
     def refuel(self, liters: float) -> None:
-        self.__logger.log(f"Refuel by {liters} in car class")
-        self.__get_fuel_tank__.refuel(liters)
-        self.notify()
+        if not self.engine_is_running:
+            self.__logger.log(f"Refuel by {liters} in car class")
+            self.__get_fuel_tank__.refuel(liters)
+            self.notify()
 
     def subscribe(self, observer: Observer) -> None:
         self.__observers.append(observer)
